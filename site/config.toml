@@ -1,0 +1,9 @@
+baseurl = "http://shipyard-project.com"
+languageCode = "en-us"
+title = "shipyard"
+theme = "shipyard"
+
+[params]
+    description = "Docker Management"
+    GoogleAnalyticsCode = "UA-44201548-1"
+

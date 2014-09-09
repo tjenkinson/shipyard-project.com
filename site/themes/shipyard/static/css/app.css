@@ -1,0 +1,16 @@
+html {
+  background-color: #fefefe;
+}
+body {
+  background-color: #fefefe;
+}
+div.sidebar-about h1 {
+    font-family: 'Poiret One', cursive;
+    text-rendering: optimizeLegibility;
+}
+div.sidebar {
+    background-color: #6581A7;
+}
+a {
+    color: #9AAFCB;
+}
