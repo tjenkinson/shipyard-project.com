@@ -266,6 +266,69 @@ GET /api/containers HTTP/1.1
 ]
 ```
 
+<a name="post-containers"></a>
+## POST /api/containers
+Run a container
+
+Request
+
+```json
+POST /api/containers HTTP/1.1
+Content-Type application/json
+
+{
+  "name": "ehazlett/go-demo",
+  "cpus": 0.1,
+  "memory": 32,
+  "type": "service",
+  "hostname": "",
+  "domain": "",
+  "labels": ["local"],
+  "args": [],
+  "environment": [],
+  "restart_policy": {}
+}
+```
+
+Response
+
+`HTTP/1.1 201 Created`
+
+```json
+[
+  {
+    "ports": [
+      {
+        "container_port": 8080,
+        "port": 49172,
+        "proto": "tcp"
+      }
+    ],
+    "engine": {
+      "labels": [
+        "local",
+        "dev"
+      ],
+      "memory": 4096,
+      "cpus": 4,
+      "addr": "http://172.16.1.50:2375",
+      "id": "local"
+    },
+    "image": {
+      "restart_policy": {},
+      "labels": [
+        "local"
+      ],
+      "type": "service",
+      "memory": 32,
+      "cpus": 0.1,
+      "name": "ehazlett/go-demo"
+    },
+    "id": "4a5da04b8428e7241a9d9993699513d11b89948399dedfa12"
+  }
+]
+```
+
 # Engines
 
 # Service Keys
@@ -274,3 +337,26 @@ GET /api/containers HTTP/1.1
 
 # Info
 
+<a name="get-cluster-info"></a>
+## GET /api/cluster/info
+Gets cluster info
+
+Request
+
+`GET /api/cluster/info HTTP/1.1`
+
+Response
+
+```json
+GET /api/cluster/info HTTP/1.1
+
+{
+  "reserved_memory": 768,
+  "reserved_cpus": 0.24,
+  "image_count": 6,
+  "engine_count": 1,
+  "container_count": 3,
+  "memory": 4096,
+  "cpus": 4
+}
+```
