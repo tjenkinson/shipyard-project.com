@@ -175,3 +175,77 @@ ID      Cpus    Memory  Host                    Labels
 local   4.00    8192.00 http://10.1.2.3:2375    dev,local
 ```
 
+## Add an Engine
+To add an engine to the cluster, use `add-engine`.
+
+```bash
+shipyard cli> shipyard add-engine --id demo --add http://10.1.2.3:2375 --cpus 4.0 --memory 4096 --label local --label dev
+```
+
+## Inspect an Engine
+To view details about an engine, use `inspect-engine`.
+
+```bash
+shipyard cli> shipyard inspect-engine local
+{
+  "engine": {
+    "labels": [
+      "local",
+      "dev"
+    ],
+    "memory": 2048,
+    "cpus": 4,
+    "addr": "http://172.16.1.50:2375",
+    "id": "local"
+  },
+  "id": "a08b8518-e963-4eb5-959a-566bd270cd28"
+}
+```
+
+## Remove an Engine
+To remove an engine from the cluster, use `remove-engine`.
+
+```bash
+shipyard cli> shipyard remove-engine demo
+```
+
+## Create a Service Key
+To create a service key, use `add-service-key`.
+
+```bash
+shipyard cli> shipyard add-service-key -d "test key"
+created key: Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry
+```
+
+## View Service Keys
+To view all service keys in the cluster, use `service-keys`.
+
+```bash
+shipyard cli> shipyard service-keys
+Key                                     Description
+Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry    test key
+```
+
+## View Cluster Info
+To view cluster information, use `info`.
+
+```bash
+shipyard cli> shipyard info
+Cpus: 4.00
+Memory: 8192.00 MB
+Containers: 2
+Images: 5
+Engines: 1
+Reserved Cpus: 4.00% (0.16)
+Reserved Memory: 3.52% (288.00 MB)
+```
+
+## View Events
+To view cluster events, use `events`.
+
+```bash
+shipyard cli> shipyard events
+Time                  Message         Engine  Type     Tags
+Sep 09 06:58:13 2014  container:6c07  local   start    docker
+Sep 09 06:58:13 2014  container:6c07  local   create   docker
+```
