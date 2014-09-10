@@ -34,15 +34,31 @@ shipyard add-engine --id local --addr http://10.1.2.3:2375 --cpus 4.0 --memory 8
 
 ## View Engines
 ```bash
-shipyard engines
+$> shipyard engines
+ID      Cpus    Memory  Host                    Labels
+local   4.00    8192.00 http://172.16.1.50:2375 local,dev
 ```
 
 ## Inspect an Engine
 ```bash
-shipyard inspect-engine local
+$> shipyard inspect-engine local
+{
+  "engine": {
+    "labels": [
+      "local",
+      "dev"
+    ],
+    "memory": 2048,
+    "cpus": 4,
+    "addr": "http://172.16.1.50:2375",
+    "id": "local"
+  },
+  "id": "a08b8518-e963-4eb5-959a-566bd270cd28"
+}
 ```
 
 ## Remove an Engine
 ```bash
-shipyard remove-engine local
+$> shipyard remove-engine local
+removed local
 ```

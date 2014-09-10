@@ -56,20 +56,59 @@ You can specify the number of instances to launch in the cluster.  By default, t
 
 ## Deploy a Container
 ```bash
-shipyard run --name ehazlett/go-demo --cpus 0.1 --memory 32 --type service --hostname demo-test --domain local --env FOO=bar --label dev --pull
+$> shipyard run --name ehazlett/go-demo --cpus 0.1 --memory 32 --type service --hostname demo-test --domain local --env FOO=bar --label dev --pull
+started 407e39dc1ccc on local
 ```
 
 ## View Containers
 ```bash
-shipyard containers
+$> shipyard containers
+ID              Name                    Host    Ports
+407e39dc1ccc    ehazlett/go-demo:latest local   tcp/49166:8080
 ```
 
 ## Inspect a Container
 ```bash
-shipyard inspect 0ab23
+$> shipyard inspect 0ab23
+{
+  "ports": [
+    {
+      "container_port": 8080,
+      "port": 49166,
+      "proto": "tcp"
+    }
+  ],
+  "engine": {
+    "labels": [
+      "local",
+      "dev"
+    ],
+    "memory": 2048,
+    "cpus": 4,
+    "addr": "http://10.1.2.3:2375",
+    "id": "local"
+  },
+  "image": {
+    "restart_policy": {},
+    "labels": [
+      "local"
+    ],
+    "type": "service",
+    "hostname": "407e39dc1ccc",
+    "environment": {
+      "GOROOT": "/goroot",
+      "GOPATH": "/gopath"
+    },
+    "memory": 256,
+    "cpus": 0.08,
+    "name": "ehazlett/go-demo:latest"
+  },
+  "id": "407e39dc1cccc675591c86306563e78be6de085745427656ad1fd89426ab8b55"
+}
 ```
 
 ## Destroy a Container
 ```bash
-shipyard destroy 0ab23
+$> shipyard destroy 407e39
+destroyed 407e39dc1ccc
 ```
