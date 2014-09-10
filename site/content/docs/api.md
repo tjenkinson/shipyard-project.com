@@ -28,8 +28,14 @@ curl -s -H "X-Service-Key: Lpc.usH1skelCuqwvjAtF.lJsWGwaKiwey2K" \
 # Accounts
 
 <a name="get-accounts"></a>
-
 ## GET /api/accounts
+Gets a list of accounts
+
+Request
+
+`GET /api/accounts HTTP/1.1`
+
+Response
 
 ```json
 [
@@ -54,13 +60,138 @@ curl -s -H "X-Service-Key: Lpc.usH1skelCuqwvjAtF.lJsWGwaKiwey2K" \
 ]
 ```
 
+<a name="post-accounts"></a>
+## POST /api/accounts
+Create an account
+
+Request
+
+```json
+POST /api/accounts HTTP/1.1
+Content-Type application/json
+
+{
+  "username": "foo",
+  "password": "bar",
+  "role": {
+    "name": "user"
+  }
+}
+```
+
+Response
+
+`HTTP/1.1 204 No Content`
+
+<a name="delete-accounts"></a>
+## DELETE /api/accounts
+Delete an account
+
+Request
+
+```json
+DELETE /api/accounts HTTP/1.1
+Content-Type application/json
+
+{
+  "username": "foo"
+}
+```
+
+Response
+
+`HTTP/1.1 204 No Content`
+
+# Roles
+
+<a name="get-roles"></a>
+## GET /api/roles
+Gets a list of roles
+
+Request
+
+`GET /api/roles HTTP/1.1`
+
+Response
+
+```json
+[
+  {
+    "name": "admin",
+    "id": "448ebe2d-89d9-412c-aab9-ad774d1ec78f"
+  },
+  {
+    "name": "user",
+    "id": "2243edf5-55f1-43ad-9ebb-c36c5233f007"
+  }
+]
+```
+
+<a name="get-role"></a>
+## GET /api/roles/\<username\>
+Gets a role
+
+Request
+
+`GET /api/roles/<username> HTTP/1.1`
+
+Response
+
+```json
+{
+  "name": "admin",
+  "id": "448ebe2d-89d9-412c-aab9-ad774d1ec78f"
+}
+```
+
+<a name="post-roles"></a>
+## POST /api/roles
+Create a role
+
+Request
+
+```json
+POST /api/roles HTTP/1.1
+Content-Type application/json
+{
+  "name": "test"
+}
+```
+
+Response
+
+`HTTP/1.1 204 No Content`
+
+<a name="delete-role"></a>
+## DELETE /api/roles
+Delete an role
+
+Request
+
+```json
+DELETE /api/roles HTTP/1.1
+Content-Type application/json
+
+{
+  "name": "test"
+}
+```
+
+Response
+
+`HTTP/1.1 204 No Content`
+
 # Containers
 
 <a name="get-containers"></a>
 ## GET /api/containers
 Get list of containers
 
+Response
+
 ```json
+GET /api/containers HTTP/1.1
+
 [
   {
     "ports": [
