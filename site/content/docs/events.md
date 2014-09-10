@@ -8,7 +8,7 @@ date = 2014-09-09T03:30:04Z
 
 Shipyard logs all events in the cluster such as container creation, starts, stops, service key management, engine management and more.
 
-# Examples
+# Example
 
 ## View Events
 ```bash

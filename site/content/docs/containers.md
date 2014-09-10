@@ -56,7 +56,15 @@ You can specify the number of instances to launch in the cluster.  By default, t
 
 ## Deploy a Container
 ```bash
-$> shipyard run --name ehazlett/go-demo --cpus 0.1 --memory 32 --type service --hostname demo-test --domain local --env FOO=bar --label dev --pull
+$> shipyard run --name ehazlett/go-demo \
+    --cpus 0.1 \
+    --memory 32 \
+    --type service \
+    --hostname demo-test \
+    --domain local \
+    --env FOO=bar \
+    --label dev \
+    --pull
 started 407e39dc1ccc on local
 ```
 
@@ -69,7 +77,7 @@ ID              Name                    Host    Ports
 
 ## Inspect a Container
 ```bash
-$> shipyard inspect 0ab23
+$> shipyard inspect 407e3
 {
   "ports": [
     {
@@ -103,7 +111,7 @@ $> shipyard inspect 0ab23
     "cpus": 0.08,
     "name": "ehazlett/go-demo:latest"
   },
-  "id": "407e39dc1cccc675591c86306563e78be6de085745427656ad1fd89426ab8b55"
+  "id": "407e39dc1cccc675591c86306563e78be6de085745427656ad1"
 }
 ```
 
