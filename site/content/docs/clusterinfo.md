@@ -12,7 +12,7 @@ Shipyard provides information to get a view of the state of the cluster.  It wil
 
 ## View Cluster Info
 ```bash
-$> shipyard info
+shipyard cli> shipyard info
 Cpus: 4.00
 Memory: 8192.00 MB
 Containers: 2

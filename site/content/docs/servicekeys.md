@@ -12,13 +12,13 @@ Service keys are used for API access.  Service keys have full access to the Ship
 
 ## Create a Service Key
 ```bash
-$> shipyard add-service-key -d "test key"
+shipyard cli> shipyard add-service-key -d "test key"
 created key: Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry
 ```
 
 ## View Service Keys
 ```bash
-$> shipyard service-keys
+shipyard cli> shipyard service-keys
 Key                                     Description
 Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry    test key
 ```
@@ -45,7 +45,7 @@ curl -s -H 'X-Service-Key: Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry' http://localhos
 
 ## Remove Service Key
 ```bash
-$> shipyard remove-service-key Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry
+shipyard cli> shipyard remove-service-key Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry
 removed Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry
 ```
 

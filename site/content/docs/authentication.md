@@ -24,12 +24,12 @@ The `user` role can do everything except manage accounts and service keys.
 
 ## Create an Account
 ```bash
-$> shipyard add-account -u demo -p demo123 -r user
+shipyard cli> shipyard add-account -u demo -p demo123 -r user
 ```
 
 ## View Accounts
 ```bash
-$> shipyard accounts
+shipyard cli> shipyard accounts
 Username        Role
 admin           admin
 test            user
@@ -37,6 +37,6 @@ test            user
 
 ## Delete an Account
 ```bash
-$> shipyard delete-account demo
+shipyard cli> shipyard delete-account demo
 ```
 

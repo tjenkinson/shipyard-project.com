@@ -56,7 +56,7 @@ You can specify the number of instances to launch in the cluster.  By default, t
 
 ## Deploy a Container
 ```bash
-$> shipyard run --name ehazlett/go-demo \
+shipyard cli> shipyard run --name ehazlett/go-demo \
     --cpus 0.1 \
     --memory 32 \
     --type service \
@@ -70,14 +70,14 @@ started 407e39dc1ccc on local
 
 ## View Containers
 ```bash
-$> shipyard containers
+shipyard cli> shipyard containers
 ID              Name                    Host    Ports
 407e39dc1ccc    ehazlett/go-demo:latest local   tcp/49166:8080
 ```
 
 ## Inspect a Container
 ```bash
-$> shipyard inspect 407e3
+shipyard cli> shipyard inspect 407e3
 {
   "ports": [
     {
@@ -117,6 +117,6 @@ $> shipyard inspect 407e3
 
 ## Destroy a Container
 ```bash
-$> shipyard destroy 407e39
+shipyard cli> shipyard destroy 407e39
 destroyed 407e39dc1ccc
 ```

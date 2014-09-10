@@ -12,7 +12,7 @@ Shipyard logs all events in the cluster such as container creation, starts, stop
 
 ## View Events
 ```bash
-$> shipyard events
+shipyard cli> shipyard events
 Time                  Message         Engine  Type     Tags
 Sep 09 06:58:13 2014  container:6c07  local   start    docker
 Sep 09 06:58:13 2014  container:6c07  local   create   docker

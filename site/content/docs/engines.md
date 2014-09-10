@@ -29,7 +29,7 @@ An engine can be configured to use SSL.  See the [Docker docs](https://docs.dock
 
 ## Add an Engine
 ```bash
-$> shipyard add-engine --id local \
+shipyard cli> shipyard add-engine --id local \
     --addr http://10.1.2.3:2375 \
     --cpus 4.0 \
     --memory 8192 \
@@ -39,14 +39,14 @@ $> shipyard add-engine --id local \
 
 ## View Engines
 ```bash
-$> shipyard engines
+shipyard cli> shipyard engines
 ID      Cpus    Memory  Host                    Labels
 local   4.00    8192.00 http://172.16.1.50:2375 local,dev
 ```
 
 ## Inspect an Engine
 ```bash
-$> shipyard inspect-engine local
+shipyard cli> shipyard inspect-engine local
 {
   "engine": {
     "labels": [
@@ -64,6 +64,6 @@ $> shipyard inspect-engine local
 
 ## Remove an Engine
 ```bash
-$> shipyard remove-engine local
+shipyard cli> shipyard remove-engine local
 removed local
 ```
