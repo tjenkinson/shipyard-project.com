@@ -21,5 +21,5 @@ See the following for details on using Shipyard.
 
 # Usage
 
-* [Command Line Interface](/docs/cli/)
-* [Web UI](/docs/webui/)
+* [Command Line Interface](/docs/usage/cli/)
+* [Web UI](/docs/usage/ui/)
