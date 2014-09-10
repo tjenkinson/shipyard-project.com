@@ -29,3 +29,8 @@ See the following for details on using Shipyard.
 
 * [Command Line Interface](/docs/usage/cli/)
 * [Web UI](/docs/usage/ui/)
+
+# API
+Shipyard features a powerful API to manage the cluster.
+
+* [API Documentation](/docs/api/)
