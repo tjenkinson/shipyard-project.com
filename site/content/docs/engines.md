@@ -2,11 +2,10 @@
 Categories = []
 Description = ""
 Tags = []
-title = ""
+title = "Engines"
 date = 2014-09-06T03:30:04Z
 +++
 
-# Engines
 A Shipyard cluster contains one or more "engines".  An engine is a Docker daemon that is listening via TCP.  There are no agents or remote applications to install to enable management; just the Docker API.
 
 When an engine is added in Shipyard, you define resource limits for the specified engine.  Those limits are used when scheduling containers to make sure the engine can fulfill the request.  You can also specify SSL certificates for secure communication.
@@ -36,6 +35,11 @@ shipyard add-engine --id local --addr http://10.1.2.3:2375 --cpus 4.0 --memory 8
 ## View Engines
 ```bash
 shipyard engines
+```
+
+## Inspect an Engine
+```bash
+shipyard inspect-engine local
 ```
 
 ## Remove an Engine

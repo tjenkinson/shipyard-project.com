@@ -3,11 +3,10 @@ Categories = []
 Description = ""
 Tags = []
 menu = "main"
-title = ""
+title = "Quickstart"
 date = 2014-08-06T04:37:14Z
 +++
 
-# Quickstart
 This will get Shipyard up and running.
 
 There are two components to Shipyard: RethinkDB and the API.

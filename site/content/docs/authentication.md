@@ -2,11 +2,10 @@
 Categories = []
 Description = ""
 Tags = []
-title = ""
+title = "Authentication"
 date = 2014-09-06T03:30:04Z
 +++
 
-# Authentication
 Shipyard supports multiple users.  You must login to manage a Shipyard cluster.
 
 Note: Shipyard will auto-create an administrative user upon creation.  See the controller output for login information after starting Shipyard.
