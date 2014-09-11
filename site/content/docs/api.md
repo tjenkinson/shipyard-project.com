@@ -133,7 +133,7 @@ Gets a role
 
 Request
 
-`GET /api/roles/<username> HTTP/1.1`
+`GET /api/roles/admin HTTP/1.1`
 
 Response
 
@@ -357,6 +357,65 @@ Response
   }
 ]
 ```
+<a name="get-container"></a>
+## GET /api/containers/\<id\>
+Inspect a container
+
+Request
+
+`GET /api/containers/3e532b HTTP/1.1`
+
+Response
+
+```json
+{
+  "ports": [
+    {
+      "container_port": 8080,
+      "port": 49155,
+      "proto": "tcp"
+    }
+  ],
+  "engine": {
+    "labels": [
+      "local",
+      "dev"
+    ],
+    "memory": 4096,
+    "cpus": 4,
+    "addr": "http://172.16.1.50:2375",
+    "id": "local"
+  },
+  "image": {
+    "restart_policy": {},
+    "labels": [
+      "local"
+    ],
+    "type": "service",
+    "hostname": "demo-1",
+    "environment": {
+      "GOROOT": "/goroot",
+      "GOPATH": "/gopath"
+    },
+    "memory": 256,
+    "cpus": 0.08,
+    "name": "ehazlett/go-demo:latest"
+  },
+  "id": "3e532b000891e90e93ca3781031e7c1ddb76d8378dfdfd3"
+}
+```
+
+<a name="delete-container"></a>
+## DELETE /api/containers/\<id\>
+Destroy a container
+
+Request
+
+`DELETE /api/containers/3e532 HTTP/1.1`
+
+Response
+
+`HTTP/1.1 204 No Content`
 
 # Engines
 
