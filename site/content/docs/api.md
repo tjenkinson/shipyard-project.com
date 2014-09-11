@@ -8,6 +8,42 @@ date = 2014-09-10T03:30:04Z
 
 At the core of Shipyard is the API.  The API is used to manage everything in the cluster.
 
+# Contents
+
+## Accounts
+* [List Accounts](#get-accounts)
+* [Create Account](#post-accounts)
+* [Delete Account](#delete-account)
+
+## Roles
+* [List Roles](#get-roles)
+* [Get Role Details](#get-role)
+* [Create Role](#post-roles)
+* [Delete Role](#delete-role)
+
+## Containers
+* [List Containers](#get-containers)
+* [Deploy Container](#post-containers)
+* [Inspect Container](#get-container)
+* [Destroy Container](#delete-container)
+
+## Engines
+* [List Engines](#get-engines)
+* [Inspect Engine](#get-engine)
+* [Add Engine](#post-engines)
+* [Remove Engine](#delete-engine)
+
+## Service Keys
+* [List Service Keys](#get-service-keys)
+* [Create Service Key](#post-service-keys)
+* [Delete Service Key](#delete-service-key)
+
+## Events
+* [List Events](#get-events)
+
+## Cluster Info
+* [Get Cluster Info](#get-cluster-info)
+
 # Authentication
 To access the Shipyard API, you must be authenticated.  To access the API, create a [Service Key](/docs/servicekeys/).  All requests need to have the header `X-Service-Key` with your service key.
 
@@ -83,7 +119,7 @@ Response
 
 `HTTP/1.1 204 No Content`
 
-<a name="delete-accounts"></a>
+<a name="delete-account"></a>
 ## DELETE /api/accounts
 Delete an account
 
@@ -268,7 +304,7 @@ GET /api/containers HTTP/1.1
 
 <a name="post-containers"></a>
 ## POST /api/containers
-Run a container
+Deploy a container
 
 Request
 
@@ -419,9 +455,259 @@ Response
 
 # Engines
 
+<a name="get-engines"></a>
+## GET /api/engines
+Gets engines
+
+Request
+
+`GET /api/engines HTTP/1.1`
+
+Response
+
+```json
+GET /api/engines HTTP/1.1
+
+[
+  {
+    "engine": {
+      "labels": [
+        "local",
+        "dev"
+      ],
+      "memory": 4096,
+      "cpus": 4,
+      "addr": "http://172.16.1.50:2375",
+      "id": "local"
+    },
+    "id": "99095f5f-7579-4a70-9369-04ad73c21312"
+  }
+]
+```
+
+<a name="get-engine"></a>
+## GET /api/engines/\<id\>
+Inspect engine
+
+Request
+
+`GET /api/engines/local HTTP/1.1`
+
+Response
+
+```json
+GET /api/engines/local HTTP/1.1
+
+{
+  "engine": {
+    "labels": [
+      "local",
+      "dev"
+    ],
+    "memory": 4096,
+    "cpus": 4,
+    "addr": "http://172.16.1.50:2375",
+    "id": "local"
+  },
+  "id": "99095f5f-7579-4a70-9369-04ad73c21312"
+}
+```
+
+<a name="post-engines"></a>
+## POST /api/engines
+Add an engine to the cluster
+
+Request
+
+```json
+POST /api/engines HTTP/1.1
+Content-Type application/json
+
+{
+  "id": "local",
+  "ssl_cert": "",
+  "ssl_key": "",
+  "ca_cert": "",
+  "engine": {
+    "id": "local",
+    "addr": "http://10.1.2.3:2375",
+    "cpus": 4.0,
+    "memory": 8192,
+    "labels": [
+      "local",
+      "dev"
+    ]
+  }
+}
+```
+
+Response
+
+`HTTP/1.1 201 Created` 
+
+<a name="delete-engine"></a>
+## DELETE /api/engines/\<id\>
+Remove an engine from the cluster
+
+Request
+
+`DELETE /api/engines/local HTTP/1.1`
+
+Response
+
+`HTTP/1.1 204 No Content`
+
 # Service Keys
 
+<a name="get-service-keys"></a>
+## GET /api/servicekeys
+Get list of service keys
+
+Request
+
+`GET /api/servicekeys HTTP/1.1`
+
+Response
+
+```json
+GET /api/servicekeys HTTP/1.1
+
+[
+  {
+    "description": "test",
+    "key": "3pYgOl4K7vlkymoi1TMLIAQIJqcYhkGWY04."
+  },
+  {
+    "description": "demo",
+    "key": "Lpc.usH1skelCuqwvjAtF.lJsWGwaKiwey2K"
+  }
+]
+```
+
+<a name="post-service-keys"></a>
+## POST /api/servicekeys
+Create a service key
+
+Request
+
+```json
+POST /api/servicekeys HTTP/1.1
+Content-Type application/json
+
+{
+  "description": "test key"
+}
+```
+
+Response
+
+```json
+{
+  "description": "test key",
+  "key": "zuoWetDKDRhPyUNRZro5cLo7yaFLKgzcqijW"
+}
+```
+
+<a name="delete-service-key"></a>
+## DELETE /api/servicekeys
+Delete a service key
+
+Request
+
+```json
+DELETE /api/servicekeys HTTP/1.1
+Content-Type application/json
+
+{
+  "key": "zuoWetDKDRhPyUNRZro5cLo7yaFLKgzcqijW"
+}
+```
+
+Response
+
+`HTTP/1.1 204 No Content`
+
 # Events
+
+<a name="get-events"></a>
+## GET /api/events
+Gets cluster events
+
+Request
+
+`GET /api/events HTTP/1.1`
+
+Response
+
+```json
+GET /api/events HTTP/1.1
+
+[
+  {
+    "tags": [
+      "cluster",
+      "security"
+    ],
+    "message": "description=demo",
+    "time": "2014-09-10T20:41:43Z",
+    "type": "add-service-key"
+  },
+  {
+    "tags": [
+      "docker"
+    ],
+    "time": "2014-09-10T14:04:45Z",
+    "engine": {
+      "labels": [
+        "local",
+        "dev"
+      ],
+      "memory": 4096,
+      "cpus": 4,
+      "addr": "http://172.16.1.50:2375",
+      "id": "local"
+    },
+    "container": {
+      "ports": [
+        {
+          "container_port": 8080,
+          "port": 49161,
+          "proto": "tcp"
+        }
+      ],
+      "engine": {
+        "labels": [
+          "local",
+          "dev"
+        ],
+        "memory": 4096,
+        "cpus": 4,
+        "addr": "http://172.16.1.50:2375",
+        "id": "local"
+      },
+      "image": {
+        "restart_policy": {},
+        "name": "ehazlett/go-demo:latest",
+        "cpus": 0.08,
+        "memory": 256,
+        "environment": {
+          "INTERLOCK_DATA": "'{\"alias_domains\":[\"foo.com\"]}'",
+          "GOROOT": "/goroot",
+          "GOPATH": "/gopath"
+        },
+        "hostname": "foo",
+        "domain": "example.com",
+        "type": "service",
+        "labels": [
+          ""
+        ]
+      },
+      "id": "53791ec5c3a6f8100c79447c5114ca0be67320d68d851d5e7ac578d1c2665532"
+    },
+    "type": "create"
+  }
+]
+```
 
 # Info
 
