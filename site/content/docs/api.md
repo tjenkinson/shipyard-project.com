@@ -286,7 +286,21 @@ Content-Type application/json
   "labels": ["local"],
   "args": [],
   "environment": [],
-  "restart_policy": {}
+  "restart_policy": {},
+  "bind_ports": [
+    {
+      "proto": "tcp",
+      "container_port": 8080
+    },
+    {
+      "proto": "tcp",
+      "port": 80,
+      "container_port": 8080
+    }
+  ],
+  "links": {
+    "redis": "db"
+  }
 }
 ```
 
@@ -319,6 +333,21 @@ Response
       "labels": [
         "local"
       ],
+      "bind_ports": [
+        {
+          "proto": "tcp",
+          "port": 49153,
+          "container_port": 8080
+        },
+        {
+          "proto": "tcp",
+          "port": 80,
+          "container_port": 8080
+        }
+      ],
+      "links": {
+        "redis": "db"
+      },
       "type": "service",
       "memory": 32,
       "cpus": 0.1,
