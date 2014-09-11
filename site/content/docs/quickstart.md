@@ -26,3 +26,6 @@ Start the Shipyard controller:
 `docker run -it -p 8080:8080 -d --name shipyard shipyard/shipyard:v2 -rethinkdb-addr <your-host-ip>:<exposed-rethinkdb-port-above>`
 
 Shipyard will create a default user account with the username `admin` and the password `shipyard`.  You should then be able to open a browser to `http://<your-host-ip>:8080` and see the Shipyard login.
+
+# Add an Engine
+You can then either use the web UI or the CLI to add an engine.  See [Engines](/docs/engines/) for details.
