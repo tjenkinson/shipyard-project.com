@@ -39,6 +39,18 @@ shipyard cli> shipyard add-engine --id local \
     --label local
 ```
 
+<a name="docker-socket"></a>
+You can also add a Docker host using the Docker socket but note this will only work in a single host setup.  You will also need to bind mount the Docker socket when running the Shipyard controller container (`-v /var/run/docker.sock:/docker.sock`)
+
+```bash
+shipyard cli> shipyard add-engine --id local-socket \
+    --addr unix:///docker.sock \
+    --cpus 4.0 \
+    --memory 8192 \
+    --label dev \
+    --label local
+```
+
 ## View Engines
 ```bash
 shipyard cli> shipyard engines
