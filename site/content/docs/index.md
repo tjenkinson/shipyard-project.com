@@ -25,6 +25,9 @@ See the following for details on using Shipyard.
 * [Events](/docs/events/)
 * [Cluster Info](/docs/clusterinfo/)
 
+# Extension Images
+These are Docker images that add functionality to Shipyard.  See [Extension Images](/docs/extension_images/) for more information.
+
 # Usage
 
 * [Command Line Interface](/docs/usage/cli/)
