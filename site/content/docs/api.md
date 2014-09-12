@@ -230,6 +230,11 @@ GET /api/containers HTTP/1.1
 
 [
   {
+    "state": {
+      "started_at": "2014-09-12T00:48:23.824260519Z",
+      "pid": 5845,
+      "running": true
+    }, 
     "ports": [
       {
         "container_port": 8080,
@@ -265,6 +270,11 @@ GET /api/containers HTTP/1.1
     "id": "cbe68bf32f1a08218693dbee9c66ea018c1a99c75c463a76b"
   },
   {
+    "state": {
+      "started_at": "2014-09-12T00:48:23.824260519Z",
+      "pid": 5846,
+      "running": true
+    }, 
     "ports": [
       {
         "container_port": 8080,
@@ -347,6 +357,11 @@ Response
 ```json
 [
   {
+    "state": {
+      "started_at": "2014-09-12T00:48:23.824260519Z",
+      "pid": 5890,
+      "running": true
+    }, 
     "ports": [
       {
         "container_port": 8080,
@@ -405,6 +420,11 @@ Response
 
 ```json
 {
+  "state": {
+    "started_at": "2014-09-12T00:48:23.824260519Z",
+    "pid": 5891,
+    "running": true
+  }, 
   "ports": [
     {
       "container_port": 8080,
