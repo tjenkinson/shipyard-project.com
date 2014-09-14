@@ -24,4 +24,16 @@ Start the Shipyard controller:
 Shipyard will create a default user account with the username `admin` and the password `shipyard`.  You should then be able to open a browser to `http://<your-host-ip>:8080` and see the Shipyard login.
 
 # Engine
-You can then either use the web UI or the CLI to add an engine.  See [Engines](/docs/engines/) for details.
+You can then either use the web UI or the CLI to add an engine.  
+
+## Single Host
+In a local host only setup, you can use the the local socket.  You will also need to bind the Docker socket to the controller container upon start.  For example:
+
+`docker run -it -p 8080:8080 -d -v /var/run/docker.sock:/docker.sock --name shipyard --link rethinkdb:rethinkdb shipyard/shipyard`
+
+Then you can add an engine using `unix:///docker.sock` for the `addr`.
+
+## Multi Host
+For a multi host setup, you will need to be able to access the Docker daemon via TCP.  For setting up TCP in Docker, see the [Docker docs](https://docs.docker.com/articles/basics/).  You can then add an engine using `http://<docker-host-ip>:<docker-host-port>`.
+
+For more information see [Engines](/docs/engines/).
