@@ -19,7 +19,10 @@ Start an instance of RethinkDB:
 # API
 Start the Shipyard controller:
 
-`docker run -it -p 8080:8080 -d --name shipyard --link rethinkdb:rethinkdb shipyard/shipyard`
+```
+docker run -it -p 8080:8080 -d --name shipyard \
+    --link rethinkdb:rethinkdb shipyard/shipyard
+```
 
 Shipyard will create a default user account with the username `admin` and the password `shipyard`.  You should then be able to open a browser to `http://<your-host-ip>:8080` and see the Shipyard login.
 
@@ -29,7 +32,12 @@ You can then either use the web UI or the CLI to add an engine.
 ## Single Host
 In a local host only setup, you can use the the local socket.  You will also need to bind the Docker socket to the controller container upon start.  For example:
 
-`docker run -it -p 8080:8080 -d -v /var/run/docker.sock:/docker.sock --name shipyard --link rethinkdb:rethinkdb shipyard/shipyard`
+```
+docker run -it -p 8080:8080 -d \
+    -v /var/run/docker.sock:/docker.sock \
+    --name shipyard --link rethinkdb:rethinkdb \
+    shipyard/shipyard
+```
 
 Then you can add an engine using `unix:///docker.sock` for the `addr`.
 
