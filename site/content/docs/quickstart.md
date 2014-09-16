@@ -19,7 +19,7 @@ Start an instance of RethinkDB:
 # API
 Start the Shipyard controller:
 
-```
+```bash
 docker run -it -p 8080:8080 -d --name shipyard \
     --link rethinkdb:rethinkdb shipyard/shipyard
 ```
@@ -32,7 +32,7 @@ You can then either use the web UI or the CLI to add an engine.
 ## Single Host
 In a local host only setup, you can use the the local socket.  You will also need to bind the Docker socket to the controller container upon start.  For example:
 
-```
+```bash
 docker run -it -p 8080:8080 -d \
     -v /var/run/docker.sock:/docker.sock \
     --name shipyard --link rethinkdb:rethinkdb \
