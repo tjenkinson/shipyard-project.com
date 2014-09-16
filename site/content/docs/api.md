@@ -331,7 +331,9 @@ Content-Type application/json
   "domain": "",
   "labels": ["local"],
   "args": [],
-  "environment": [],
+  "environment": {
+    "FOO": "bar"
+  },
   "restart_policy": {},
   "bind_ports": [
     {
