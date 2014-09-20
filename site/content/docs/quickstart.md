@@ -12,16 +12,20 @@ This will get Shipyard up and running.
 There are two components to Shipyard: RethinkDB and the API.
 
 # RethinkDB
-Start an instance of RethinkDB:
+Start an data volume instance of RethinkDB:
 
-`docker run -it -P -d --name rethinkdb shipyard/rethinkdb`
+`docker run -it -d --name shipyard-rethinkdb-data --entrypoint /bin/bash shipyard/rethinkdb echo data vol for shipyard rethinkdb`
+
+Start RethinkDB with using the data volume container:
+
+`docker run -it -P -d --name shipyard-rethinkdb --volumes-from shipyard-rethinkdb-data shipyard/rethinkdb`
 
 # API
 Start the Shipyard controller:
 
 ```bash
 docker run -it -p 8080:8080 -d --name shipyard \
-    --link rethinkdb:rethinkdb shipyard/shipyard
+    --link shipyard-rethinkdb:rethinkdb shipyard/shipyard
 ```
 
 Shipyard will create a default user account with the username `admin` and the password `shipyard`.  You should then be able to open a browser to `http://<your-host-ip>:8080` and see the Shipyard login.
