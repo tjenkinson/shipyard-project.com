@@ -16,7 +16,7 @@ docker run -it shipyard/shipyard-cli
 ```
 
 # RethinkDB
-RethinkDB is used for the account, engine, service key and extension metadata information.  It is not used to store anything about the Docker containers or images.
+RethinkDB is used for the account, engine, service key and extension metadata information.  It is not used to store anything about the Docker containers or images.  The `/data` directory is exposed as a volume in the `shipyard/rethinkdb` Docker image.
 
 # Concepts
 See the following for details on using Shipyard.
