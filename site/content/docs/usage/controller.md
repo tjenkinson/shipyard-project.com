@@ -10,7 +10,7 @@ This describes working with the Shipyard Controller.  The examples that follow a
 
 ## View Help
 ```bash
-docker run shipyard/shipyard -h
+$> docker run shipyard/shipyard -h
 
 Usage of /app/controller:
   -listen=":8080": listen address
@@ -23,7 +23,7 @@ Usage of /app/controller:
 This allows changing of the listen address.  You should not need to change this when running in Docker.
 
 ## RethinkDB Address
-The `-rethinkdb-addr` sets the connection address to RethinkDB.  This is in `<host-or-ip>:<port>` format.
+The sets the connection address to RethinkDB.  This is in `<host-or-ip>:<port>` format.
 
 ## RethinkDB Database
 This sets the database to use in RethinkDB for Shipyard.

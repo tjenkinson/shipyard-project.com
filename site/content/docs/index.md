@@ -34,6 +34,7 @@ These are Docker images that add functionality to Shipyard.  See [Extension Imag
 # Usage
 
 * [Command Line Interface](/docs/usage/cli/)
+* [Controller](/docs/usage/controller/)
 
 # API
 Shipyard features a powerful API to manage the cluster.
