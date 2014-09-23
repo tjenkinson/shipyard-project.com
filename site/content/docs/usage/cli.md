@@ -152,6 +152,8 @@ shipyard cli> shipyard run --name ehazlett/go-demo \
     --type service \
     --hostname demo-test \
     --domain local \
+    --link redis:db \
+    --restart "on-failure:5" \
     --env FOO=bar \
     --label dev \
     --pull

@@ -334,7 +334,9 @@ Content-Type application/json
   "environment": {
     "FOO": "bar"
   },
-  "restart_policy": {},
+  "restart_policy": {
+    "name": "always"
+  },
   "bind_ports": [
     {
       "proto": "tcp",
@@ -382,7 +384,9 @@ Response
       "id": "local"
     },
     "image": {
-      "restart_policy": {},
+      "restart_policy": {
+        "name": "always"  
+      },
       "labels": [
         "local"
       ],
