@@ -20,7 +20,8 @@ d38c0a74-c0d3-4102-acde-a8dd331460aa    interlock       0.1     ehazlett        
 
 ## Add Extension
 ```bash
-shipyard cli> shipyard add-extension --url http://url/to/extension.conf
+shipyard cli> shipyard add-extension \
+    --url http://url/to/extension.conf
 ```
 
 ## Remove Extension
@@ -39,12 +40,18 @@ These are the current images and also those that are being developed:
 
 To use Interlock, run the following:
 
+`shipyard add-extension --url https://raw.githubusercontent.com/shipyard/shipyard-extensions/master/routing/interlock.conf`
+
+When prompted, enter the url to your Shipyard host and Service Key.
+
+For example:
+
 ```bash
 shipyard cli> shipyard add-extension --url https://raw.githubusercontent.com/shipyard/shipyard-extensions/master/routing/interlock.conf
+
 configuring interlock (https://github.com/ehazlett/interlock for more info)
-enter value for container argument -shipyard-url: http://<your-shipyard-host>
-enter value for container argument -shipyard-service-key: <your-service-key>
-added extension name=interlock version=0.1
+enter value for container argument -shipyard-url:
+enter value for container argument -shipyard-service-key:
 ```
 
 ## Provisioning
