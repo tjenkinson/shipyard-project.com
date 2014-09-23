@@ -39,7 +39,7 @@ In a local host only setup, you can use the the local socket.  You will also nee
 ```bash
 docker run -it -p 8080:8080 -d \
     -v /var/run/docker.sock:/docker.sock \
-    --name shipyard --link rethinkdb:rethinkdb \
+    --name shipyard --link shipyard-rethinkdb:rethinkdb \
     shipyard/shipyard
 ```
 
