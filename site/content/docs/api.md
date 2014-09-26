@@ -770,6 +770,8 @@ GET /api/cluster/info HTTP/1.1
 ## POST /hub/webhook/
 Auto deploy via Docker Hub webhook.  This will pull the latest image from the Docker Hub and re-launch all containers in the cluster with the same image name.  See a demo [here](https://asciinema.org/a/12434).
 
+To set up a repo for auto-deploy, add a Webhook in the Docker Hub repo settings and point it to http://<shipyard-url>/hub/webhook/
+
 Request
 
 `POST /hub/webhook HTTP/1.1`
