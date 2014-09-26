@@ -44,6 +44,9 @@ At the core of Shipyard is the API.  The API is used to manage everything in the
 ## Cluster Info
 * [Get Cluster Info](#get-cluster-info)
 
+## Docker Hub
+* [Deployment](#docker-hub-deployment)
+
 # Authentication
 To access the Shipyard API, you must be authenticated.  To access the API, create a [Service Key](/docs/servicekeys/).  All requests need to have the header `X-Service-Key` with your service key.
 
@@ -760,3 +763,52 @@ GET /api/cluster/info HTTP/1.1
   "cpus": 4
 }
 ```
+
+# Docker Hub
+
+<a name="docker-hub-deployment"></a>
+## POST /hub/webhook/
+Auto deploy via Docker Hub webhook.  This will pull the latest image from the Docker Hub and re-launch all containers in the cluster with the same image name.  See a demo [here](https://asciinema.org/a/12434).
+
+Request
+
+`POST /hub/webhook HTTP/1.1`
+
+```json
+POST /hub/webhook HTTP/1.1
+Content-Type application/json
+
+{
+   "push_data":{
+      "pushed_at":1385141110,
+      "images":[
+         "imagehash1",
+         "imagehash2",
+         "imagehash3"
+      ],
+      "pusher":"username"
+   },
+   "repository":{
+      "status":"Active",
+      "description":"my docker repo that does cool things",
+      "is_trusted":false,
+      "full_description":"This is my full description",
+      "repo_url":"https://registry.hub.docker.com/u/username/reponame/",
+      "owner":"username",
+      "is_official":false,
+      "is_private":false,
+      "name":"reponame",
+      "namespace":"username",
+      "star_count":1,
+      "comment_count":1,
+      "date_created":1370174400,
+      "dockerfile":"my full dockerfile is listed here",
+      "repo_name":"username/reponame"
+   }
+}
+```
+
+Response
+
+`HTTP/1.1 200 OK`
+
