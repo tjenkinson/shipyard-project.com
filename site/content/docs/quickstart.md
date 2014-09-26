@@ -33,19 +33,9 @@ Shipyard will create a default user account with the username `admin` and the pa
 # Engine
 You can then either use the web UI or the CLI to add an engine.  
 
-## Single Host
-In a local host only setup, you can use the the local socket.  You will also need to bind the Docker socket to the controller container upon start.  For example:
+## Setup
+Note: Local socket based access is possible but is limited and not recommended.  For example, port exposure will not work in the UI because it cannot detect the engine IP.  This will also cause problems with the Extension Images as most of them need to be able to detect the engine IP as well.  The recommended setup is to use TCP.  If you want to use the socket setup to test, visit us in IRC.
 
-```bash
-docker run -it -p 8080:8080 -d \
-    -v /var/run/docker.sock:/docker.sock \
-    --name shipyard --link shipyard-rethinkdb:rethinkdb \
-    shipyard/shipyard
-```
-
-Then you can add an engine using `unix:///docker.sock` for the `addr`.
-
-## Multi Host
-For a multi host setup, you will need to be able to access the Docker daemon via TCP.  For setting up TCP in Docker, see the [Docker docs](https://docs.docker.com/articles/basics/).  You can then add an engine using `http://<docker-host-ip>:<docker-host-port>`.
+To setup a host, you will need to be able to access the Docker daemon via TCP.  For setting up TCP in Docker, see the [Docker docs](https://docs.docker.com/articles/basics/).  You can then add an engine using `http://<docker-host-ip>:<docker-host-port>` as the `addr` in the CLI or Host in the UI.
 
 For more information see [Engines](/docs/engines/).
