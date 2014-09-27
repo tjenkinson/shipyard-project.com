@@ -14,7 +14,7 @@ There are two components to Shipyard: RethinkDB and the API.
 # RethinkDB
 Start an data volume instance of RethinkDB:
 
-`docker run -it -d --name shipyard-rethinkdb-data --entrypoint /bin/bash shipyard/rethinkdb echo data vol for shipyard rethinkdb`
+`docker run -it -d --name shipyard-rethinkdb-data --entrypoint /bin/bash shipyard/rethinkdb -l`
 
 Start RethinkDB with using the data volume container:
 
