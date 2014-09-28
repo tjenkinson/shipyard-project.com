@@ -5,7 +5,7 @@ Tags = []
 title = "Webhook Keys"
 date = 2014-09-28T03:30:04Z
 +++
-Webhook keys are used with Docker Hub webhooks.  Webhooks from the Docker Hub notify Shipyard of new image builds and trigger deployment in Shipyard.
+Webhook keys are used with the Docker Hub.  Webhooks from the Docker Hub notify of new image builds and trigger deployments in Shipyard.
 
 # Workflow
 
