@@ -25,6 +25,7 @@ See the following for details on using Shipyard.
 * [Engines](/docs/engines/)
 * [Containers](/docs/containers/)
 * [Service Keys](/docs/servicekeys/)
+* [Webhook Keys](/docs/webhookkeys/)
 * [Events](/docs/events/)
 * [Cluster Info](/docs/clusterinfo/)
 
