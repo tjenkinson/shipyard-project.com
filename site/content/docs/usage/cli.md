@@ -18,7 +18,7 @@ USAGE:
    shipyard [global options] command [command options] [arguments...]
 
 VERSION:
-   1.0.0
+   2.0.0
 
 COMMANDS:
    login                login to a shipyard cluster
@@ -29,6 +29,8 @@ COMMANDS:
    containers           list containers
    inspect              inspect container
    run                  run a container
+   stop                 stop a container
+   restart              restart a container
    destroy              destroy a container
    engines              list engines
    add-engine           add shipyard engine
@@ -37,6 +39,12 @@ COMMANDS:
    service-keys         list service keys
    add-service-key      adds a service key
    remove-service-key   removes a service key
+   extensions           show extensions
+   add-extension        add extension
+   remove-extension     remove an extension
+   webhook-keys         list webhook keys
+   add-webhook-key      adds a webhook key
+   remove-webhook-key   removes a webhook key
    info                 show cluster info
    events               show cluster events
    help, h              Shows a list of commands or help for one command
@@ -78,6 +86,12 @@ demo            user
 
 ## Add Account
 Add new accounts with `add-account`.
+
+### Options
+
+* `--username, -u`: account username
+* `--password, -p`: account password
+* `--role, -r`: account role (admin / user)
 
 ```bash
 shipyard cli> shipyard add-account -u demo -p demo123 -r user
@@ -145,6 +159,26 @@ shipyard cli> shipyard inspect 3e53
 ## Deploy a Container
 Start containers with `run`.
 
+### Options
+
+* `--name`: Docker image name
+* `--container-name`: container name
+* `--cpus`: cpus to reserve for container
+* `--memory`: memory in MB to reserve for container
+* `--type`: container type (service, host, unique)
+* `--hostname`: container hostname
+* `--domain`: container domain name
+* `--env`: set container environment variables
+* `--link`: link another container
+* `--arg`: command arguments for the container
+* `--vol`: container volumes (/host/path:/container/path or /container/path)
+* `--label`: labels to use for scheduling
+* `--port`: expose container ports (<proto>/<host-port>:<container-port> format)
+* `--publish`: publish all exposed ports
+* `--pull`: pull latest image before launching
+* `--count`: number of containers to launch
+* `--restart`: restart policy (on-failure, always, on-failure:5, etc.)
+
 ```bash
 shipyard cli> shipyard run --name ehazlett/go-demo \
     --cpus 0.1 \
@@ -180,6 +214,17 @@ local   4.00    8192.00 http://10.1.2.3:2375    dev,local
 ## Add an Engine
 To add an engine to the cluster, use `add-engine`.
 
+### Options
+
+* `--id`: id for engine
+* `--addr`: address of engine (i.e. http://10.1.2.3:2375)
+* `--cpus`: engine cpus
+* `--memory`: amount of memory (in MB) of engine
+* `--label`: labels to use for scheduling
+* `--ssl-cert`: (optional) path to ssl certificate
+* `--ssl-key`: (optional) path to ssl key
+* `--ca-cert`: (optional) path to CA certificate
+
 ```bash
 shipyard cli> shipyard add-engine --id demo --add http://10.1.2.3:2375 --cpus 4.0 --memory 4096 --label local --label dev
 ```
@@ -213,6 +258,10 @@ shipyard cli> shipyard remove-engine demo
 
 ## Create a Service Key
 To create a service key, use `add-service-key`.
+
+### Options
+
+* `--description, -d`: description of key
 
 ```bash
 shipyard cli> shipyard add-service-key -d "test key"
