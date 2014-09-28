@@ -38,6 +38,11 @@ At the core of Shipyard is the API.  The API is used to manage everything in the
 * [Create Service Key](#post-service-keys)
 * [Delete Service Key](#delete-service-key)
 
+## Webhook Keys
+* [List Webhook Keys](#get-webhook-keys)
+* [Create Webhook Key](#post-webhook-keys)
+* [Delete Webhook Key](#delete-webhook-key)
+
 ## Events
 * [List Events](#get-events)
 
@@ -651,6 +656,68 @@ Content-Type application/json
   "key": "zuoWetDKDRhPyUNRZro5cLo7yaFLKgzcqijW"
 }
 ```
+
+Response
+
+`HTTP/1.1 204 No Content`
+
+# Webhook Keys
+Webhook keys are used to allow deployment via the Docker Hub.
+
+<a name="get-webhook-keys"></a>
+## GET /api/webhookkeys
+Get list of webhook keys
+
+Request
+
+`GET /api/webhookkeys HTTP/1.1`
+
+Response
+
+```json
+GET /api/servicekeys HTTP/1.1
+
+[
+  {
+    "key": "fc563339166b3c69",
+    "image": "ehazlett/go-demo",
+    "id": "d7c68d6f-65bc-4e0c-8134-8e281a6b4d9b"
+  }
+]
+```
+
+<a name="post-webhook-keys"></a>
+## POST /api/webhookkeys
+Create a webhook key
+
+Request
+
+```json
+POST /api/webhookkeys HTTP/1.1
+Content-Type application/json
+
+{
+  "image": "ehazlett/redis"
+}
+```
+
+Response
+
+```json
+{
+    "image": "ehazlett/redis",
+    "key":"8d710a03c7d965aa"
+}
+```
+
+<a name="delete-webhook-key"></a>
+## DELETE /api/webhooks/\<id\>
+Delete a webhook key
+
+Request
+
+```json
+DELETE /api/webhooks/8d710a03c7d965aa HTTP/1.1
 
 Response
 
