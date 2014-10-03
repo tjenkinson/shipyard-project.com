@@ -173,7 +173,7 @@ Start containers with `run`.
 * `--arg`: command arguments for the container
 * `--vol`: container volumes (/host/path:/container/path or /container/path)
 * `--label`: labels to use for scheduling
-* `--port`: expose container ports (<proto>/<host-port>:<container-port> format)
+* `--port`: expose container ports (<proto>/<host-ip>:<host-port>:<container-port> format)
 * `--publish`: publish all exposed ports
 * `--pull`: pull latest image before launching
 * `--count`: number of containers to launch
@@ -187,6 +187,8 @@ shipyard cli> shipyard run --name ehazlett/go-demo \
     --hostname demo-test \
     --domain local \
     --link redis:db \
+    --port tcp/10.1.2.3:80:8080 \
+    --port tcp/::8000 \
     --restart "on-failure:5" \
     --env FOO=bar \
     --label dev \
