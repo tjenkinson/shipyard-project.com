@@ -347,6 +347,7 @@ Content-Type application/json
   },
   "bind_ports": [
     {
+      "host_ip": "10.1.2.3",
       "proto": "tcp",
       "container_port": 8080
     },
@@ -377,6 +378,7 @@ Response
     "ports": [
       {
         "container_port": 8080,
+        "host_ip": "10.1.2.3",
         "port": 49172,
         "proto": "tcp"
       }
