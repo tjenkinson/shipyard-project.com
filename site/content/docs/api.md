@@ -26,6 +26,9 @@ At the core of Shipyard is the API.  The API is used to manage everything in the
 * [Deploy Container](#post-containers)
 * [Inspect Container](#get-container)
 * [Destroy Container](#delete-container)
+* [Stop Container](#stop-container)
+* [Restart Container](#restart-container)
+* [Scale Container](#scale-container)
 
 ## Engines
 * [List Engines](#get-engines)
@@ -482,6 +485,42 @@ Destroy a container
 Request
 
 `DELETE /api/containers/3e532 HTTP/1.1`
+
+Response
+
+`HTTP/1.1 204 No Content`
+
+<a name="stop-container"></a>
+## DELETE /api/containers/\<id\>/stop
+Stop a container
+
+Request
+
+`GET /api/containers/3e532/stop HTTP/1.1`
+
+Response
+
+`HTTP/1.1 204 No Content`
+
+<a name="restart-container"></a>
+## DELETE /api/containers/\<id\>/restart
+Restart a container
+
+Request
+
+`GET /api/containers/3e532/restart HTTP/1.1`
+
+Response
+
+`HTTP/1.1 204 No Content`
+
+<a name="scale-container"></a>
+## DELETE /api/containers/\<id\>/scale?count=\<count\>
+Scale a container to the desired number of instances
+
+Request
+
+`GET /api/containers/3e532/scale?count=10 HTTP/1.1`
 
 Response
 

@@ -18,7 +18,7 @@ USAGE:
    shipyard [global options] command [command options] [arguments...]
 
 VERSION:
-   2.0.0
+   2.0.1
 
 COMMANDS:
    login                login to a shipyard cluster
@@ -31,6 +31,7 @@ COMMANDS:
    run                  run a container
    stop                 stop a container
    restart              restart a container
+   scale                scale a container
    destroy              destroy a container
    engines              list engines
    add-engine           add shipyard engine
@@ -194,6 +195,14 @@ shipyard cli> shipyard run --name ehazlett/go-demo \
     --label dev \
     --pull
 started 407e39dc1ccc on local
+```
+
+## Scale a Container
+This will scale a container to the desired number of instances.
+
+```bash
+shipyard cli> shipyard scale --id 407e --count 10
+scaled 407e39dc1ccc to 10
 ```
 
 ## Destroy a Container
