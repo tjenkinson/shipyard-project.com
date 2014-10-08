@@ -41,3 +41,6 @@ These are Docker images that add functionality to Shipyard.  See [Extension Imag
 Shipyard features a powerful API to manage the cluster.
 
 * [API Documentation](/docs/api/)
+
+# Usage Info
+By default, the controller will periodically report anonymous usage information.  This includes things like number of engines etc.  It is anonymous (not even an IP or image name is recorded).  To opt-out, use the `-disable-usage-info` argument when launching the controller.
