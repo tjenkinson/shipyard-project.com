@@ -493,7 +493,7 @@ Response
 `HTTP/1.1 204 No Content`
 
 <a name="stop-container"></a>
-## DELETE /api/containers/\<id\>/stop
+## GET /api/containers/\<id\>/stop
 Stop a container
 
 Request
@@ -505,7 +505,7 @@ Response
 `HTTP/1.1 204 No Content`
 
 <a name="restart-container"></a>
-## DELETE /api/containers/\<id\>/restart
+## GET /api/containers/\<id\>/restart
 Restart a container
 
 Request
@@ -517,7 +517,7 @@ Response
 `HTTP/1.1 204 No Content`
 
 <a name="scale-container"></a>
-## DELETE /api/containers/\<id\>/scale?count=\<count\>
+## GET /api/containers/\<id\>/scale?count=\<count\>
 Scale a container to the desired number of instances
 
 Request
