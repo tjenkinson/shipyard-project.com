@@ -172,9 +172,9 @@ Start containers with `run`.
 * `--env`: set container environment variables
 * `--link`: link another container
 * `--arg`: command arguments for the container
-* `--vol`: container volumes (/host/path:/container/path or /container/path)
+* `--vol`: container volumes (`/host/path:/container/path` or `/container/path`)
 * `--label`: labels to use for scheduling
-* `--port`: expose container ports (<proto>/<host-ip>:<host-port>:<container-port> format)
+* `--port`: expose container ports (`<proto>/<host-ip>:<host-port>:<container-port>` format)
 * `--publish`: publish all exposed ports
 * `--pull`: pull latest image before launching
 * `--count`: number of containers to launch
