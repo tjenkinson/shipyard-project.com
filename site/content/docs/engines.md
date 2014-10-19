@@ -84,6 +84,6 @@ shipyard cli> shipyard inspect-engine local
 
 ## Remove an Engine
 ```bash
-shipyard cli> shipyard remove-engine local
+shipyard cli> shipyard remove-engine a08b8518-e963-4eb5-959a-566bd270cd28
 removed local
 ```

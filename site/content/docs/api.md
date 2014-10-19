@@ -626,7 +626,7 @@ Remove an engine from the cluster
 
 Request
 
-`DELETE /api/engines/local HTTP/1.1`
+`DELETE /api/engines/99095f5f-7579-4a70-9369-04ad73c21312 HTTP/1.1`
 
 Response
 
