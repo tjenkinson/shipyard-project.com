@@ -18,7 +18,7 @@ USAGE:
    shipyard [global options] command [command options] [arguments...]
 
 VERSION:
-   2.0.1
+   2.0.3
 
 COMMANDS:
    login                login to a shipyard cluster
@@ -32,6 +32,7 @@ COMMANDS:
    stop                 stop a container
    restart              restart a container
    scale                scale a container
+   logs                 show container logs
    destroy              destroy a container
    engines              list engines
    add-engine           add shipyard engine
@@ -203,6 +204,14 @@ This will scale a container to the desired number of instances.
 ```bash
 shipyard cli> shipyard scale --id 407e --count 10
 scaled 407e39dc1ccc to 10
+```
+
+## Container Logs
+This will show the logs for a container.
+
+```bash
+shipyard cli> shipyard logs 407e39
+listening on :8080
 ```
 
 ## Destroy a Container

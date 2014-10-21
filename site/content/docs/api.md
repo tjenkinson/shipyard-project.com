@@ -29,6 +29,7 @@ At the core of Shipyard is the API.  The API is used to manage everything in the
 * [Stop Container](#stop-container)
 * [Restart Container](#restart-container)
 * [Scale Container](#scale-container)
+* [Container Logs](#get-container-logs)
 
 ## Engines
 * [List Engines](#get-engines)
@@ -527,6 +528,20 @@ Request
 Response
 
 `HTTP/1.1 204 No Content`
+
+<a name="get-container-logs"></a>
+## GET /api/containers/\<id\>/logs
+Get container logs
+
+Request
+
+`GET /api/containers/3e532b/logs HTTP/1.1`
+
+Response
+
+```
+listening on :8080
+```
 
 # Engines
 
