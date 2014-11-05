@@ -20,6 +20,8 @@ Start RethinkDB with using the data volume container:
 
 `docker run -it -P -d --name shipyard-rethinkdb --volumes-from shipyard-rethinkdb-data shipyard/rethinkdb`
 
+If your server is directly accessible on Internet, please note your RethinkDB installation may publicly listen to ports 49153 (local instance), 49154 (cluster) and 49155 (web interface) and so accessible to all.
+
 # API
 Start the Shipyard controller:
 
