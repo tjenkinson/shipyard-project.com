@@ -246,7 +246,7 @@ To add an engine to the cluster, use `add-engine`.
 * `--ca-cert`: (optional) path to CA certificate
 
 ```bash
-shipyard cli> shipyard add-engine --id demo --add http://10.1.2.3:2375 --cpus 4.0 --memory 4096 --label local --label dev
+shipyard cli> shipyard add-engine --id demo --addr http://10.1.2.3:2375 --cpus 4.0 --memory 4096 --label local --label dev
 ```
 
 ## Inspect an Engine
