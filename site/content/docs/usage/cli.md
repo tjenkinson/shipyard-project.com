@@ -181,17 +181,6 @@ Start containers with `run`.
 * `--count`: number of containers to launch
 * `--restart`: restart policy (on-failure, always, on-failure:5, etc.)
 
-#### Container Types
-
-##### Label
-Schedule containers to hosts with a specific label
-
-##### Unique
-Schedule containers on hosts that do not already have a container running from the specified image
-
-##### Host
-Schedule containers on specific hosts
-
 ```bash
 shipyard cli> shipyard run --name ehazlett/go-demo \
     --cpus 0.1 \
@@ -208,6 +197,17 @@ shipyard cli> shipyard run --name ehazlett/go-demo \
     --pull
 started 407e39dc1ccc on local
 ```
+
+#### Container Types
+
+##### Label
+Schedule containers to hosts with a specific label
+
+##### Unique
+Schedule containers on hosts that do not already have a container running from the specified image
+
+##### Host
+Schedule containers on specific hosts
 
 ## Scale a Container
 This will scale a container to the desired number of instances.

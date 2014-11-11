@@ -10,6 +10,9 @@ At the core of Shipyard is the API.  The API is used to manage everything in the
 
 # Contents
 
+## Authorization
+* [Login](#auth-login)
+
 ## Accounts
 * [List Accounts](#get-accounts)
 * [Create Account](#post-accounts)
@@ -56,12 +59,38 @@ At the core of Shipyard is the API.  The API is used to manage everything in the
 ## Docker Hub
 * [Deployment](#docker-hub-deployment)
 
-# Authentication
-To access the Shipyard API, you must be authenticated.  To access the API, create a [Service Key](/docs/servicekeys/).  All requests need to have the header `X-Service-Key` with your service key.
+# Login
+<a name="auth-login"></a>
+## POST /auth/login
+ehis will return an authorization token.  This is not the same as a service key.  Authorization tokens are used for user login not services.
+
+Request
+
+```json
+POST /auth/login HTTP/1.1
+Content-Type application/json
+
+{
+  "username": "foo",
+  "password": "bar",
+}
+```
+
+Response
+
+```json
+{
+  "auth_token": "$2a$10$QKbbcXM5pUUXM/0bTwC8re/PU2jB5wqLEyUcRZtHcavjwdfmW/y4W",
+  "user_agent":"curl/7.35.0"
+}
+```
+
+# API Authentication
+To access the Shipyard API, you must be authenticated.  The recommended way is to use service keys.  To create a [Service Key](/docs/servicekeys/).  All requests need to have the header `X-Service-Key` with your service key.
 
 ```json
 curl -s -H "X-Service-Key: Lpc.usH1skelCuqwvjAtF.lJsWGwaKiwey2K" \
-    http://localhost:8080/api/cluster/info
+    http://<shipyard-url>:8080/api/cluster/info
 {
   "reserved_memory": 1024,
   "reserved_cpus": 0.32,
