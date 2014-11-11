@@ -18,7 +18,7 @@ USAGE:
    shipyard [global options] command [command options] [arguments...]
 
 VERSION:
-   2.0.3
+   2.0.4
 
 COMMANDS:
    login                login to a shipyard cluster
@@ -180,6 +180,17 @@ Start containers with `run`.
 * `--pull`: pull latest image before launching
 * `--count`: number of containers to launch
 * `--restart`: restart policy (on-failure, always, on-failure:5, etc.)
+
+#### Container Types
+
+##### Label
+Schedule containers to hosts with a specific label
+
+##### Unique
+Schedule containers on hosts that do not already have a container running from the specified image
+
+##### Host
+Schedule containers on specific hosts
 
 ```bash
 shipyard cli> shipyard run --name ehazlett/go-demo \
