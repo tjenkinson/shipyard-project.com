@@ -9,6 +9,8 @@ date = 2014-09-12T04:37:14Z
 
 Extension images are Docker images that add functionality to Shipyard core.
 
+Note: If an extension is killed or removed, it will automatically "self-heal" and restart.  If you want to remove one, you must use the `remove-extension` CLI command.
+
 # Usage
 
 ## View Extensions
