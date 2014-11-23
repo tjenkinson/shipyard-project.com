@@ -597,6 +597,10 @@ GET /api/engines HTTP/1.1
       "memory": 4096,
       "cpus": 4,
       "addr": "http://172.16.1.50:2375",
+      "health": {
+        "status": "up",
+        "response_time": 100
+      }
       "id": "local"
     },
     "id": "99095f5f-7579-4a70-9369-04ad73c21312"
