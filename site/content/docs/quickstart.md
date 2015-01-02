@@ -52,7 +52,15 @@ For more information see [Engines](/docs/engines/).
 This is an example on adding a Boot2Docker host.
 
 ### CLI
-`shipyard add-engine --id b2d --addr https://<your-b2d-ip>:2376 --label local --ssl-cert ~/.boot2docker/certs/boot2docker-vm/cert.pem --ssl-key ~/.boot2docker/certs/boot2docker-vm/key.pem --ca-cert ~/.boot2docker/certs/boot2docker-vm/ca.pem`
+
+```bash
+shipyard add-engine --id b2d \
+    --addr https://<your-b2d-ip>:2376 \
+    --label local \
+    --ssl-cert ~/.boot2docker/certs/boot2docker-vm/cert.pem \
+    --ssl-key ~/.boot2docker/certs/boot2docker-vm/key.pem \
+    --ca-cert ~/.boot2docker/certs/boot2docker-vm/ca.pem
+```
 
 ### UI
 
@@ -61,10 +69,10 @@ This is an example on adding a Boot2Docker host.
 * Enter your ID for the Name (can be whatever you want)
 * Enter one or more labels separated by spaces
 * Enter the amount of CPUs and Memory the VM has
-* For "Address" enter "https://<your-b2d-ip>:2376"
-* Copy the text from ~/.boot2docker/certs/boot2docker-vm/cert.pem into "SSL Certificate"
-* Copy the text from ~/.boot2docker/certs/boot2docker-vm/key.pem into "SSL Key"
-* Copy the text from ~/.boot2docker/certs/boot2docker-vm/ca.pem into "CA Certificate"
+* For "Address" enter "https://\<your-b2d-ip\>:2376"
+* Copy the text from `~/.boot2docker/certs/boot2docker-vm/cert.pem` into "SSL Certificate"
+* Copy the text from `~/.boot2docker/certs/boot2docker-vm/key.pem` into "SSL Key"
+* Copy the text from `~/.boot2docker/certs/boot2docker-vm/ca.pem` into "CA Certificate"
 * Click "Add"
 
-In both examples, replace "<your-b2d-ip>" with your Boot2Docker VM ip.  You can get this by running `boot2docker shellinit`.
+In both examples, replace "\<your-b2d-ip\>" with your Boot2Docker VM ip.  You can get this by running `boot2docker shellinit`.
