@@ -25,7 +25,7 @@ Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry    test key
 
 ## Use a Service Key
 ```bash
-curl -s -H 'X-Service-Key: Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry' http://localhost:8080/api/engines
+curl -s -H 'X-Service-Key: Z2uwezQGoaIcfiRSQBRbktrzdbFRWKlVTEry' http://<shipyard-controller-ip>:8080/api/engines
 [
     {
         "engine": {

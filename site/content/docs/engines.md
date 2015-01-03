@@ -6,7 +6,7 @@ title = "Engines"
 date = 2014-09-06T03:30:04Z
 +++
 
-A Shipyard cluster contains one or more "engines".  An engine is a Docker daemon that is listening via socket (for local only) or TCP for multi-host.  There are no agents or remote applications to install to enable management; just the Docker API.
+A Shipyard cluster contains one or more "engines".  An engine is a Docker daemon that is listening on TCP.  There are no agents or remote applications to install to enable management; just the Docker API.
 
 To configure the Docker daemon to listen on TCP, see the [Docker Docs](https://docs.docker.com/articles/basics/) under the section "Bind Docker to another host/port or a Unix socket".
 
@@ -18,7 +18,7 @@ Each engine has an arbitrary identifier.  This can be anything to identify the e
 
 <a name="addr"></a>
 ## Addr
-This is the URL that is used to access the engine.  For local use only, use `unix:///path/to/docker.sock`.  Use `http://` for non-SSL endpoints and `https://` for SSL protected in multi-host setups.
+This is the URL that is used to access the engine.  Use `http://` for non-TLS Docker hosts and `https://` for TLS hosts.
 
 <a name="resources"></a>
 ## Resources
