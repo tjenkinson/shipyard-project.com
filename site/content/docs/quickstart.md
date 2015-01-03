@@ -57,7 +57,7 @@ This is an example on adding a Boot2Docker host.
 shipyard add-engine --id b2d \
     --addr https://<your-b2d-ip>:2376 \
     --label local \
-    -v /Users/<username>/.boot2docker /b2d \
+    -v /Users/<username>/.boot2docker:/b2d \
     --ssl-cert /b2d/certs/boot2docker-vm/cert.pem \
     --ssl-key /b2d/certs/boot2docker-vm/key.pem \
     --ca-cert /b2d/certs/boot2docker-vm/ca.pem
