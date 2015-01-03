@@ -39,7 +39,7 @@ docker run -it -p 8080:8080 -d --name shipyard \
 Shipyard will create a default user account with the username `admin` and the password `shipyard`.  You should then be able to open a browser to `http://<your-host-ip>:8080` and see the Shipyard login.
 
 # Engine
-An "Engine" in Shipyard is simply a Docker host.  You can then either use the web UI or the CLI to add an engine.
+An "Engine" in Shipyard is simply a Docker host.  You can use the web UI or the CLI to add an engine.
 
 ## Setup
 To setup a host, you will need to be able to access the Docker daemon via TCP.  For setting up TCP in Docker, see the [Docker docs](https://docs.docker.com/articles/basics/).  You can then add an engine using `http://<docker-host-ip>:<docker-host-port>` as the `addr` in the CLI or Host in the UI.
