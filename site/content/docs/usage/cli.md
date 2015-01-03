@@ -62,7 +62,7 @@ Use login to login to a Shipyard cluster.  This will save an access token to `~/
 
 ```bash
 shipyard cli> shipyard login
-URL: http://localhost:8080
+URL: http://<shipyard-controller-ip>:8080
 Username: admin
 Password: **********
 ```
