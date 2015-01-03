@@ -9,7 +9,7 @@ date = 2014-08-06T04:37:14Z
 
 This will get Shipyard up and running.
 
-There are two components to Shipyard: RethinkDB and the API.
+Shipyard uses RethinkDB for its datastore.  User accounts, service keys, webhook keys and engine metadata are stored in RethinkDB.  No container information is stored.
 
 # RethinkDB
 Start an data volume instance of RethinkDB:
@@ -39,11 +39,9 @@ docker run -it -p 8080:8080 -d --name shipyard \
 Shipyard will create a default user account with the username `admin` and the password `shipyard`.  You should then be able to open a browser to `http://<your-host-ip>:8080` and see the Shipyard login.
 
 # Engine
-You can then either use the web UI or the CLI to add an engine.
+An "Engine" in Shipyard is simply a Docker host.  You can then either use the web UI or the CLI to add an engine.
 
 ## Setup
-Note: Local socket based access is possible but is limited and not recommended.  For example, port exposure will not work in the UI because it cannot detect the engine IP.  This will also cause problems with the Extension Images as most of them need to be able to detect the engine IP as well.  The recommended setup is to use TCP.  If you want to use the socket setup to test, visit us in IRC.
-
 To setup a host, you will need to be able to access the Docker daemon via TCP.  For setting up TCP in Docker, see the [Docker docs](https://docs.docker.com/articles/basics/).  You can then add an engine using `http://<docker-host-ip>:<docker-host-port>` as the `addr` in the CLI or Host in the UI.
 
 For more information see [Engines](/docs/engines/).
@@ -52,6 +50,13 @@ For more information see [Engines](/docs/engines/).
 This is an example on adding a Boot2Docker host.
 
 ### CLI
+
+Start a Shipyard CLI container:
+
+`docker run -ti --rm shipyard/shipyard-cli`
+
+Use `shipyard login` to login to your controller.  Use http://<your-shipyard-ip>:8080 for the host, "admin" for the username and "shipyard" for the password.
+
 
 ```bash
 shipyard add-engine --id b2d \
