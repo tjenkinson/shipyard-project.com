@@ -53,7 +53,7 @@ This is an example on adding a Boot2Docker host.
 
 Start a Shipyard CLI container:
 
-`docker run -ti --rm shipyard/shipyard-cli`
+`docker run -ti -v /Users/<username>/.boot2docker:/b2d --rm shipyard/shipyard-cli`
 
 Use `shipyard login` to login to your controller.  Use http://<your-shipyard-ip>:8080 for the host, "admin" for the username and "shipyard" for the password.
 
@@ -62,7 +62,6 @@ Use `shipyard login` to login to your controller.  Use http://<your-shipyard-ip>
 shipyard add-engine --id b2d \
     --addr https://<your-b2d-ip>:2376 \
     --label local \
-    -v /Users/<username>/.boot2docker:/b2d \
     --ssl-cert /b2d/certs/boot2docker-vm/cert.pem \
     --ssl-key /b2d/certs/boot2docker-vm/key.pem \
     --ca-cert /b2d/certs/boot2docker-vm/ca.pem
