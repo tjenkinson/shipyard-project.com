@@ -365,6 +365,7 @@ Content-Type application/json
 
 {
   "name": "ehazlett/go-demo",
+  "container_name": "demo",
   "cpus": 0.1,
   "memory": 32,
   "type": "service",
