@@ -15,7 +15,8 @@ Shipyard uses RethinkDB for its datastore.  User accounts, service keys, webhook
 There is a very small Docker image that will deploy and manage and entire Shipyard stack called [Deploy](https://github.com/shipyard/shipyard-deploy).  See the readme for full usage.
 
 ```
-docker run --rm -v /var/run/docker.sock:/var/run/docker.sock shipyard/deploy start
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
+    shipyard/deploy start
 ```
 
 # Option 2: Manual Deploy
