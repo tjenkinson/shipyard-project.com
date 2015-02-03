@@ -14,13 +14,12 @@ Shipyard uses RethinkDB for its datastore.  User accounts, service keys, webhook
 # Shipyard Deploy
 There is a very small Docker image that will deploy and manage and entire Shipyard stack called [Deploy](https://github.com/shipyard/shipyard-deploy).  See the readme for full usage.
 
-## Deploy Stack
 ```
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock shipyard/deploy start
 ```
 
-## Manually
-### RethinkDB
+# Manually
+## RethinkDB
 Start an data volume instance of RethinkDB:
 
 ```bash
@@ -37,7 +36,7 @@ docker run -it -P -d --name shipyard-rethinkdb \
 
 If your server is directly accessible on Internet, please note your RethinkDB installation may publicly listen to ports 49153 (local instance), 49154 (cluster) and 49155 (web interface) and so accessible to all.
 
-### API
+## API
 Start the Shipyard controller:
 
 ```bash
