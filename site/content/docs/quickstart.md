@@ -11,14 +11,16 @@ This will get Shipyard up and running.
 
 Shipyard uses RethinkDB for its datastore.  User accounts, service keys, webhook keys and engine metadata are stored in RethinkDB.  No container information is stored.
 
-# Shipyard Deploy
+# Option 1: Shipyard Deploy
 There is a very small Docker image that will deploy and manage and entire Shipyard stack called [Deploy](https://github.com/shipyard/shipyard-deploy).  See the readme for full usage.
 
 ```
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock shipyard/deploy start
 ```
 
-# Manually
+# Option 2: Manual Deploy
+This is the manual way to deploy the containers.
+
 ## RethinkDB
 Start an data volume instance of RethinkDB:
 
