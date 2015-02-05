@@ -53,7 +53,7 @@ Shipyard will create a default user account with the username `admin` and the pa
 An "Engine" in Shipyard is simply a Docker host.  You can use the web UI or the CLI to add an engine.
 
 ## Setup
-To setup a host, you will need to be able to access the Docker daemon via TCP.  For setting up TCP in Docker, see the [Docker docs](https://docs.docker.com/articles/basics/).  You can then add an engine using `http://<docker-host-ip>:<docker-host-port>` as the `addr` in the CLI or Host in the UI.
+To setup a host, you will need to be able to access the Docker daemon via TCP.  For setting up TCP in Docker, see [First steps with Docker](https://docs.docker.com/articles/basics/). If you want to secure your TCP setup by enabling TLS with trusted CA certificates, see [Protecting the Docker daemon Socket with HTTPS](https://docs.docker.com/articles/https/).  You can then add an engine using `http://<docker-host-ip>:<docker-host-port>` as the `addr` in the CLI or Host in the UI.
 
 For more information see [Engines](/docs/engines/).
 
