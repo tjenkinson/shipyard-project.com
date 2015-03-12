@@ -12,7 +12,7 @@ This will get Shipyard up and running.
 Shipyard uses RethinkDB for its datastore.  User accounts, service keys, webhook keys and engine metadata are stored in RethinkDB.  No container information is stored.
 
 # Option 1: Shipyard Deploy
-There is a very small Docker image that will deploy and manage and entire Shipyard stack called [Deploy](https://github.com/shipyard/shipyard-deploy).  See the readme for full usage.
+There is a very small Docker image that will deploy and manage an entire Shipyard stack called [Deploy](https://github.com/shipyard/shipyard-deploy).  See the readme for full usage.
 
 ```
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \
@@ -37,7 +37,7 @@ docker run -it -P -d --name shipyard-rethinkdb \
     --volumes-from shipyard-rethinkdb-data shipyard/rethinkdb
 ```
 
-If your server is directly accessible on Internet, please note your RethinkDB installation may publicly listen to ports 49153 (local instance), 49154 (cluster) and 49155 (web interface) and so accessible to all.
+If your server is directly accessible on Internet, please note your RethinkDB installation may publicly listen to ports 49153 (local instance), 49154 (cluster) and 49155 (web interface), so it might be accessible to everyone.
 
 ## API
 Start the Shipyard controller:
@@ -58,7 +58,7 @@ To setup a host, you will need to be able to access the Docker daemon via TCP.  
 For more information see [Engines](/docs/engines/).
 
 ## Example
-This is an example on adding a Boot2Docker host.
+This is an example of adding a Boot2Docker host.
 
 ### CLI
 
