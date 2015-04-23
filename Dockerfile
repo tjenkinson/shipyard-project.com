@@ -7,6 +7,6 @@ RUN curl -s -L -o /tmp/hugo.tar.gz https://github.com/spf13/hugo/releases/downlo
     tar xzf /tmp/hugo.tar.gz --strip-components=1 -C /bin
 RUN (ln -s /bin/hugo_0.11_linux_amd64 /bin/hugo)
 RUN (cd /gopath/src/app/site && hugo -v)
-CMD []
 ENTRYPOINT ["/gopath/bin/app"]
+CMD []
 
