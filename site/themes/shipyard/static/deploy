@@ -91,7 +91,6 @@ elif [ "$ACTION" = "node" ]; then
     # get current number of nodes
     NODES=`docker-machine ls | grep shipyard-swarm-node | wc -l`
     NODE_NUM=$((NODES+1))
-
     NODE_NAME=shipyard-swarm-node-$PROVIDER-$NODE_NUM
     docker-machine create -d $PROVIDER $MACHINE_ARGS --swarm --swarm-discovery $TOKEN $NODE_NAME
 
