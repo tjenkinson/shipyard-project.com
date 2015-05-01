@@ -54,7 +54,7 @@ deploy_shipyard_controller() {
 
 if [ "$ACTION" = "install" ]; then
     echo "Deploying Shipyard using $PROVIDER..."
-    TOKEN=`curl -XPOST https://discovery-stage.hub.docker.com/v1/clusters`
+    TOKEN=`curl -s -XPOST https://discovery-stage.hub.docker.com/v1/clusters`
 
     docker-machine create -d $PROVIDER $MACHINE_ARGS --swarm --swarm-discovery token://$TOKEN --swarm-master shipyard-swarm-master
     
