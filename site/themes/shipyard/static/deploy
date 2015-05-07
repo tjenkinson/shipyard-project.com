@@ -110,6 +110,23 @@ elif [ "$ACTION" = "upgrade" ]; then
 elif [ "$ACTION" = "destroy" ]; then
     NODES=`docker-machine ls -q | grep shipyard-swarm`
 
+    # get swarm token to delete the cluster
+    ARGS="`docker $(docker-machine config shipyard-swarm-master) inspect --format='{{range $v := .Config.Cmd}} {{$v}} {{end}}' swarm-agent-master`"
+    TOKEN=""
+    for ARG in $ARGS; do
+        if [[ $ARG == *"token://"* ]]; then
+            TOKEN=$ARG
+        fi
+    done
+
+    # split out the actual token
+    IFS=':' read -a tkn <<< $TOKEN
+    t=`echo "${tkn[1]}" | tr -d '//'`
+
+    # delete the cluster
+    curl -s -o /dev/null -XDELETE https://discovery-stage.hub.docker.com/v1/clusters/$t
+
+    # remove the nodes
     if [ ! -z "$NODES" ]; then
         echo "Destroying Shipyard"
         echo $NODES | xargs docker-machine rm
