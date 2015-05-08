@@ -5,6 +5,7 @@ if [ "$1" != "" ] && [ "$1" = "-h" ]; then
     echo "Shipyard Deploy uses the following environment variables:"
     echo "  PROVIDER: this selects which provider to use with Docker Machine"
     echo "  ACTION: this is the action to use (install, upgrade, node, destroy)"
+    echo "  NAME: (optional) specify the name of the machine"
     echo "  IMAGE: this overrides the default Shipyard image"
     echo "  MACHINE_ARGS: these are passed to Docker Machine during machine creation"
     echo "  SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args"
@@ -29,13 +30,15 @@ IMAGE=${IMAGE:-ehazlett/shipyard:v3}
 SHIPYARD_ARGS=${SHIPYARD_ARGS:-""}
 HOST_CERT_PATH="/etc/docker"
 MACHINE_ARGS=${MACHINE_ARGS:-""}
+NAME=${NAME:-""}
+NODES_FILE=.nodes
 
 if [ "$PROVIDER" = "virtualbox" ]; then
     HOST_CERT_PATH="/var/lib/boot2docker"
 fi
 
 deploy_shipyard_controller() {
-    docker $(docker-machine config shipyard-swarm-master) run \
+    docker $(docker-machine config $NAME) run \
       -d \
       -ti \
       -p 8080:8080 \
@@ -45,20 +48,31 @@ deploy_shipyard_controller() {
       --name shipyard \
       $IMAGE server \
       --rethinkdb-addr=rethinkdb:28015 \
-      -d tcp://$(docker-machine ip shipyard-swarm-master):3376 \
+      -d tcp://$(docker-machine ip $NAME):3376 \
       --tls-ca-cert /etc/docker/ca.pem \
       --tls-cert /etc/docker/server.pem \
       --tls-key /etc/docker/server-key.pem \
       --auth-whitelist-cidr 127.0.0.0/8 $SHIPYARD_ARGS
 }
 
+get_swarm_master() {
+    NODES=`cat $NODES_FILE`
+    NODES=($NODES)
+
+    SWARM_MASTER=${NODES[0]}
+}
+
 if [ "$ACTION" = "install" ]; then
     echo "Deploying Shipyard using $PROVIDER..."
     TOKEN=`curl -s -XPOST https://discovery-stage.hub.docker.com/v1/clusters`
 
-    docker-machine create -d $PROVIDER $MACHINE_ARGS --swarm --swarm-discovery token://$TOKEN --swarm-master shipyard-swarm-master
+    if [ -z "$NAME" ]; then
+        NAME=shipyard-swarm-master
+    fi
+
+    docker-machine create -d $PROVIDER $MACHINE_ARGS --swarm --swarm-discovery token://$TOKEN --swarm-master $NAME
     
-    docker $(docker-machine config shipyard-swarm-master) run \
+    docker $(docker-machine config $NAME) run \
         -d \
         --restart=always \
         --name shipyard-rethinkdb \
@@ -66,16 +80,20 @@ if [ "$ACTION" = "install" ]; then
     
     deploy_shipyard_controller
 
-    SHIPYARD_IP=`docker-machine ip shipyard-swarm-master`
+    SHIPYARD_IP=`docker-machine ip $NAME`
     
+    echo "$NAME" >> $NODES_FILE
+
     echo "Shipyard v3 available at http://$SHIPYARD_IP:8080"
     echo "Username: admin Password: shipyard"
     
-    echo "To remove, run docker-machine rm shipyard-swarm-master"
+    echo "To remove, run docker-machine rm $NAME"
 
 elif [ "$ACTION" = "node" ]; then
+    get_swarm_master
+
     echo "Adding node using $PROVIDER"
-    ARGS="`docker $(docker-machine config shipyard-swarm-master) inspect --format='{{range $v := .Config.Cmd}} {{$v}} {{end}}' swarm-agent-master`"
+    ARGS="`docker $(docker-machine config $SWARM_MASTER) inspect --format='{{range $v := .Config.Cmd}} {{$v}} {{end}}' swarm-agent-master`"
     TOKEN=""
     for ARG in $ARGS; do
         if [[ $ARG == *"token://"* ]]; then
@@ -88,30 +106,40 @@ elif [ "$ACTION" = "node" ]; then
         exit 1
     fi
 
-    # get current number of nodes
-    NODES=`docker-machine ls | grep shipyard-swarm-node | wc -l`
-    NODE_NUM=$((NODES+1))
-    NODE_NAME=shipyard-swarm-node-$PROVIDER-$NODE_NUM
-    docker-machine create -d $PROVIDER $MACHINE_ARGS --swarm --swarm-discovery $TOKEN $NODE_NAME
+    if [ -z "$NAME" ]; then
+        # get current number of nodes
+        NODES=`cat $NODES_FILE | wc -l`
+        NODE_NUM=$((NODES+1))
+        NAME=shipyard-swarm-node-$PROVIDER-$NODE_NUM
+    fi
 
-    echo "Added node $NODE_NAME to cluster"
-    echo "To remove, run docker-machine rm $NODE_NAME"
+    docker-machine create -d $PROVIDER $MACHINE_ARGS --swarm --swarm-discovery $TOKEN $NAME
+
+    echo "$NAME" >> $NODES_FILE
+
+    echo "Added node $NAME to cluster"
+    echo "To remove, run docker-machine rm $NAME"
 
 elif [ "$ACTION" = "upgrade" ]; then
-    echo "Upgrading Shipyard"
-    docker $(docker-machine config shipyard-swarm-master) pull $IMAGE
+    get_swarm_master
 
-    docker $(docker-machine config shipyard-swarm-master) rm -fv shipyard
+    echo "Upgrading Shipyard"
+    docker $(docker-machine config $SWARM_MASTER) pull $IMAGE
+
+    docker $(docker-machine config $SWARM_MASTER) rm -fv shipyard
 
     deploy_shipyard_controller
 
     echo "Shipyard controller updated"
 
 elif [ "$ACTION" = "destroy" ]; then
-    NODES=`docker-machine ls -q | grep shipyard-swarm`
+    NODES=`cat $NODES_FILE`
+    NODES=($NODES)
+
+    get_swarm_master
 
     # get swarm token to delete the cluster
-    ARGS="`docker $(docker-machine config shipyard-swarm-master) inspect --format='{{range $v := .Config.Cmd}} {{$v}} {{end}}' swarm-agent-master`"
+    ARGS="`docker $(docker-machine config $SWARM_MASTER) inspect --format='{{range $v := .Config.Cmd}} {{$v}} {{end}}' swarm-agent-master`"
     TOKEN=""
     for ARG in $ARGS; do
         if [[ $ARG == *"token://"* ]]; then
@@ -127,11 +155,13 @@ elif [ "$ACTION" = "destroy" ]; then
     curl -s -o /dev/null -XDELETE https://discovery-stage.hub.docker.com/v1/clusters/$t
 
     # remove the nodes
-    if [ ! -z "$NODES" ]; then
-        echo "Destroying Shipyard"
-        echo $NODES | xargs docker-machine rm
-        echo "Shipyard Removed"
-    fi
+    echo "Destroying Shipyard"
+    for NODE in ${NODES[@]}; do
+        docker-machine rm $NODE
+    done
+
+    echo "Shipyard Removed"
+    rm $NODES_FILE
 else
     echo "Unknown action $ACTION"
     exit 1
