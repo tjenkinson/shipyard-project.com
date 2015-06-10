@@ -31,7 +31,7 @@ SHIPYARD_ARGS=${SHIPYARD_ARGS:-""}
 HOST_CERT_PATH="/etc/docker"
 MACHINE_ARGS=${MACHINE_ARGS:-""}
 NAME=${NAME:-""}
-NODES_FILE=.nodes
+NODES_FILE=$HOME/.shipyard-nodes
 
 if [ "$PROVIDER" = "virtualbox" ]; then
     HOST_CERT_PATH="/var/lib/boot2docker"
