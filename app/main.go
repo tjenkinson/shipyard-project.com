@@ -15,5 +15,5 @@ func init() {
 
 func main() {
 	flag.Parse()
-	panic(http.ListenAndServe(LISTEN_ADDR, http.FileServer(http.Dir("./site/public"))))
+	panic(http.ListenAndServe(LISTEN_ADDR, http.FileServer(http.Dir("./public"))))
 }
