@@ -2,18 +2,22 @@ package main
 
 import (
 	"flag"
+	"log"
 	"net/http"
 )
 
 var (
-	LISTEN_ADDR string
+	listenAddr      string
+	publicDirectory string
 )
 
 func init() {
-	flag.StringVar(&LISTEN_ADDR, "l", ":8080", "Listen address")
+	flag.StringVar(&listenAddr, "l", ":8080", "Listen address")
+	flag.StringVar(&publicDirectory, "p", "./public", "Public directory to serve")
 }
 
 func main() {
 	flag.Parse()
-	panic(http.ListenAndServe(LISTEN_ADDR, http.FileServer(http.Dir("./public"))))
+	log.Printf("starting server: addr=%s\n", listenAddr)
+	log.Fatal(http.ListenAndServe(listenAddr, http.FileServer(http.Dir(publicDirectory))))
 }

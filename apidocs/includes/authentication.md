@@ -13,7 +13,7 @@ Content-Type: application/json
 }
 ```
 
-> Response Output
+> Response
 
 ```json
 {
@@ -34,7 +34,7 @@ This will return an authorization token.  This is not the same as a service key.
 ```http
 GET /1.17/version HTTP/1.1
 Content-Type: application/json
-X-Access-Token: admin:token
+X-Access-Token: username:token
 ```
 
 > Response Output
@@ -57,3 +57,6 @@ Auth Method | Header | Example
 Service Key | `X-Service-Key` | `X-Service-Key:12345`
 Auth Token | `X-Access-Token` | `X-Access-Token:admin:$2$34...xxx`
 
+<aside class="notice">
+For the examples below, make sure to replace "username" and "token" with your own username and token.
+</aside>

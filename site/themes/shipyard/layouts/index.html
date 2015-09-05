@@ -6,24 +6,19 @@
 <h1>Shipyard</h1>
 <p><em>Composable Docker Management</em></p>
 
-<p>Built on the Docker cluster management toolkit <a href="https://github.com/citadel/citadel">Citadel</a>, Shipyard gives you the ability to manage Docker resources including containers, hosts and more.</p>
+<p>Built on <a href="https://docs.docker.com/swarm">Docker Swarm</a>, Shipyard gives you the ability to manage Docker resources including containers, images, private registries and more.</p>
 
-<p>Shipyard differs from other management applications in that it promotes composability.  At the core, Shipyard only manages Docker (containers, etc).  However, using "<a href="/docs/extension_images/">Extension Images</a>" you can add functionality such as application routing and load balancing, centralized logging, deployment and more.  You decide which components to use that fit your needs.</p>
+<p>Shipyard differs from other management applications in that it promotes composability and is 100% compatible with the Docker Remote API.  Shipyard manages containers, images, nodes, private registries cluster-wide as well as providing authentication and role based access control.  </p>
 
 <img src="/images/dashboard.png"/>
 
-<h1>Web UI</h1>
-<p>The web interface provides simple management over your Docker cluster.  You can see cluster utilization, engine utilization, create and destroy containers, see cluster wide events and more all from a simple interface.</p>
+<h1>Web User Interface</h1>
+<p>The web interface provides simple management over your Docker cluster.  You can manage containers, cluster images, private registries, authentication and more.</p>
 
-<h1>CLI</h1>
-<p>Shipyard also comes with a powerful command line interface.  Utilizing the API, it allows for full management over a Docker cluster.</p>
-
-<img src="/images/cli.png"/>
+<p>For details, see the <a href="/walkthrough">Walkthrough</a>.</p>
 
 <h1>API</h1>
-<p>At the core of Shipyard is the API.  Shipyard is built from the ground up with the API at the center.  Both the CLI and web UI use the API for all functionality.  By using service keys, you can interact directly with the Shipyard API to manage a Docker cluster and build custom integration.</p>
-
-<img src="/images/api.png"/>
+<p>At the core of Shipyard is the API.  Shipyard is built from the ground up with the API at the center.  The web UI uses the API for all functionality.  By using service keys, you can interact directly with the Shipyard API to manage a Docker Swarm cluster and build custom integration.</p>
 
 <h1>More Info</h2>
 <p>See the <a href="/docs">Docs</a> for information on working with Shipyard.</p>
