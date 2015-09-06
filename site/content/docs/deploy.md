@@ -34,7 +34,7 @@ curl -sSL https://shipyard-project.com/deploy | bash -s -- -h
 
 ```bash
 Shipyard Deploy uses the following environment variables:
-  ACTION: this is the action to use (install, upgrade, remove)
+  ACTION: this is the action to use (deploy, upgrade, remove)
   IMAGE: this overrides the default Shipyard image
   PREFIX: prefix for container names
   SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args
