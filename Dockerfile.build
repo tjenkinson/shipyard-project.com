@@ -1,0 +1,22 @@
+FROM golang:1.5
+MAINTAINER Evan Hazlett "<ejhazlett@gmail.com>"
+ENV DEBIAN_FRONTEND noninteractive
+# slate deps
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ruby ruby-dev build-essential git && \
+    gem install --no-ri --no-rdoc bundler && \
+    rm -rf /var/lib/apt/lists/*
+# hugo
+RUN curl -s -L -o /tmp/hugo.tar.gz https://github.com/spf13/hugo/releases/download/v0.14/hugo_0.14_linux_amd64.tar.gz && \
+    tar xzf /tmp/hugo.tar.gz --strip-components=1 -C /bin && \
+    ln -s /bin/hugo_0.14_linux_amd64 /bin/hugo && \
+    rm -rf /tmp/hugo*
+# api docs
+COPY slate /slate
+RUN rm -f /slate/Gemfile.lock && \
+    cd /slate && \
+    bundle install
+# app
+COPY app /go/src/app
+COPY site /site
+COPY apidocs /slate/source
