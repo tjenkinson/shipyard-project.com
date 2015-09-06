@@ -124,7 +124,7 @@ remove_rethinkdb() {
 start_proxy() {
     TLS_OPTS=""
     if [ $ENABLE_TLS = 1 ]; then
-        TLS_OPTS="-e SSL_CA=$SSL_CA_CERT -e SSL_CERT=$SSL_CERT -e SSL_KEY=$SSL_KEY"
+        TLS_OPTS="-e SSL_CA=$SSL_CA_CERT -e SSL_CERT=$SSL_CERT -e SSL_KEY=$SSL_KEY -e SSL_SKIP_VERIFY=1"
     fi
     # Note: we add SSL_SKIP_VERIFY=1 to skip verification of the client
     # certificate in the proxy image.  this will pass it to swarm that
@@ -139,7 +139,6 @@ start_proxy() {
         --name $PREFIX-proxy \
         -v /var/run/docker.sock:/var/run/docker.sock \
         -e PORT=$PROXY_PORT \
-        -e SSL_SKIP_VERIFY=1 \
         --volumes-from=$PREFIX-certs $TLS_OPTS\
         ehazlett/docker-proxy:latest)
 }
@@ -161,7 +160,6 @@ start_swarm() {
         --link $PREFIX-proxy:proxy \
         --volumes-from=$PREFIX-certs \
         swarm:latest \
-        --debug \
         m --host tcp://0.0.0.0:$SWARM_PORT $TLS_OPTS proxy:$PROXY_PORT)
 }
 
@@ -185,7 +183,7 @@ start_controller() {
         --link $PREFIX-swarm:swarm \
         -p 8080:8080 \
         --volumes-from=$PREFIX-certs \
-        $IMAGE -D \
+        $IMAGE \
         server \
         -d tcp://swarm:$SWARM_PORT $TLS_OPTS $SHIPYARD_ARGS)
 }
