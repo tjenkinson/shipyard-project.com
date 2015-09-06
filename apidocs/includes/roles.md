@@ -52,6 +52,42 @@ role_name | string | Name of Role
 description | string | Description of role
 rules | list of rule objects | List of rule objects describing the path and allowed methods
 
+## Get a Role
+
+```http
+GET /api/roles/admin HTTP/1.1
+Content-Type: application/json
+X-Access-Token: username:token
+```
+
+> Response
+
+```json
+{
+    "role_name": "admin",
+    "description": "Administrator",
+    "rules": [
+        {
+            "path": "*",
+            "methods": [
+                "*"
+            ]
+        }
+    ]
+}
+
+```
+
+HTTP Request
+
+`GET /api/roles/(name)`
+
+### Parameters
+
+Name | Description
+-----|-----
+name | Name of the Role
+
 ## Create a Role
 
 ```http

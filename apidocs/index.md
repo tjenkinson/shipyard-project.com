@@ -1,5 +1,5 @@
 ---
-title: Shipyard API
+title: Shipyard API Reference
 
 language_tabs:
   - http
@@ -13,8 +13,11 @@ includes:
   - authentication
   - accounts
   - roles
+  - nodes
+  - registries
   - servicekeys
   - webhookkeys
+  - events
   - docker
   - help
 

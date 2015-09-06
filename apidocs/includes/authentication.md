@@ -60,3 +60,7 @@ Auth Token | `X-Access-Token` | `X-Access-Token:admin:$2$34...xxx`
 <aside class="notice">
 For the examples below, make sure to replace "username" and "token" with your own username and token.
 </aside>
+
+<aside class="notice">
+To use a service key in the examples, replace "X-Access-Token: username:token" with "X-Service-Key: key".
+</aside>
