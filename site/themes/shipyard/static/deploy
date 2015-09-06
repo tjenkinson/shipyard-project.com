@@ -2,11 +2,11 @@
 
 if [ "$1" != "" ] && [ "$1" = "-h" ]; then
     echo "Shipyard Deploy uses the following environment variables:"
-    echo "  ACTION: this is the action to use (install, upgrade, node, destroy)"
+    echo "  ACTION: this is the action to use (deploy, upgrade, remove)"
     echo "  IMAGE: this overrides the default Shipyard image"
     echo "  PREFIX: prefix for container names"
     echo "  SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args"
-    echo "  TLS_CERT_PATH: (optional) path to certs to enable TLS for Shipyard"
+    echo "  TLS_CERT_PATH: path to certs to enable TLS for Shipyard"
     exit 1
 fi
 
@@ -16,7 +16,7 @@ if [ -z "`which docker`" ]; then
     exit 1
 fi
 
-ACTION=${ACTION:-install}
+ACTION=${ACTION:-deploy}
 IMAGE=${IMAGE:-shipyard/shipyard:latest}
 PREFIX=${PREFIX:-shipyard}
 SHIPYARD_ARGS=${SHIPYARD_ARGS:-""}
@@ -208,7 +208,7 @@ remove_controller() {
     docker rm -fv $PREFIX-controller > /dev/null 2>&1
 }
 
-if [ "$ACTION" = "install" ]; then
+if [ "$ACTION" = "deploy" ]; then
     set -e
 
     check_certs
@@ -235,10 +235,6 @@ if [ "$ACTION" = "install" ]; then
     fi
     echo "Username: admin Password: shipyard"
     
-elif [ "$ACTION" = "node" ]; then
-    #TODO: finish
-    echo "Not yet implemented"
-
 elif [ "$ACTION" = "upgrade" ]; then
     set -e
 

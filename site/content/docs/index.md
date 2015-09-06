@@ -7,7 +7,7 @@ date = 2014-09-06T03:30:04Z
 +++
 
 # Documentation
-This describes working with Shipyard.  You can use the [Quickstart](/docs/quickstart) to deploy Shipyard.
+This describes working with Shipyard.  You can use the [Deployment Guide](/docs/deploy) to deploy Shipyard.
 
 See the following for details on using Shipyard.
 
