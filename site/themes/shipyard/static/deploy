@@ -38,18 +38,12 @@ SSL_KEY=""
 SSL_CLIENT_CERT=""
 SSL_CLIENT_KEY=""
 
-# check for b2d
-docker run --rm -v /etc/os-release:/host/os-release alpine cat /etc/os-release | grep Boot2Docker
-B2D=$?
-if [ $B2D = "0" ]; then
-    CERT_PATH="/var/lib/boot2docker/shipyard"
-fi
-
 show_cert_help() {
     echo "To use TLS in Shipyard, you must have existing certificates."
     echo "The certs must be named ca.pem, server.pem, server-key.pem, cert.pem and key.pem"
     echo "If you need to generate certificates, see https://github.com/ehazlett/certm for examples."
 }
+
 check_certs() {
     if [ -z "$TLS_CERT_PATH" ]; then
         return
