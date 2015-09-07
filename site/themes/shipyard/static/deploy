@@ -58,7 +58,6 @@ check_certs() {
     PROXY_PORT=2376
     SWARM_PORT=3376
     SHIPYARD_PROTOCOL=https
-    CERT_FINGERPRINT=$(openssl x509 -noout -in $LOCAL_SSL_CERT -fingerprint -sha256 | awk -F= '{print $2;}')
     LOCAL_SSL_CA_CERT="$TLS_CERT_PATH/ca.pem"
     LOCAL_SSL_CERT="$TLS_CERT_PATH/server.pem"
     LOCAL_SSL_KEY="$TLS_CERT_PATH/server-key.pem"
@@ -69,6 +68,7 @@ check_certs() {
     SSL_KEY="$CERT_PATH/server-key.pem"
     SSL_CLIENT_CERT="$CERT_PATH/cert.pem"
     SSL_CLIENT_KEY="$CERT_PATH/key.pem"
+    CERT_FINGERPRINT=$(openssl x509 -noout -in $LOCAL_SSL_CERT -fingerprint -sha256 | awk -F= '{print $2;}')
 
     if [ ! -e $LOCAL_SSL_CA_CERT ] || [ ! -e $LOCAL_SSL_CERT ] || [ ! -e $LOCAL_SSL_KEY ] || [ ! -e $LOCAL_SSL_CLIENT_CERT ] || [ ! -e $LOCAL_SSL_CLIENT_KEY ]; then
         echo "Error: unable to find certificates"
@@ -191,6 +191,8 @@ wait_for_available() {
     IP=$1
     PORT=$2
     echo Waiting for Shipyard on $IP:$PORT
+
+    docker pull ehazlett/curl > /dev/null 2>&1
 
     TLS_OPTS=""
     if [ $ENABLE_TLS = 1 ]; then
