@@ -58,7 +58,7 @@ check_certs() {
     PROXY_PORT=2376
     SWARM_PORT=3376
     SHIPYARD_PROTOCOL=https
-    CERT_FINGERPRINT=$(openssl x509 -noout -in /tmp/shipyard-certs/server.pem -fingerprint -sha256 | awk -F= '{print $2;}')
+    CERT_FINGERPRINT=$(openssl x509 -noout -in $LOCAL_SSL_CERT -fingerprint -sha256 | awk -F= '{print $2;}')
     LOCAL_SSL_CA_CERT="$TLS_CERT_PATH/ca.pem"
     LOCAL_SSL_CERT="$TLS_CERT_PATH/server.pem"
     LOCAL_SSL_KEY="$TLS_CERT_PATH/server-key.pem"
@@ -230,7 +230,7 @@ if [ "$ACTION" = "deploy" ]; then
     wait_for_available $SHIPYARD_IP 8080
 
     echo "Shipyard available at $SHIPYARD_PROTOCOL://$SHIPYARD_IP:8080"
-    if [ $ENABLE_TLS = 1 ]; then
+    if [ $ENABLE_TLS = 1 ] && [ ! -z "$CERT_FINGERPRINT" ]; then
         echo "SSL SHA-256 Fingerprint: $CERT_FINGERPRINT"
     fi
     echo "Username: admin Password: shipyard"
