@@ -10,6 +10,7 @@ toc_footers:
   - <a href='https://github.com/shipyard/shipyard'>Shipyard on GitHub</a>
 
 includes:
+  - docker
   - authentication
   - accounts
   - roles
@@ -18,7 +19,6 @@ includes:
   - servicekeys
   - webhookkeys
   - events
-  - docker
   - help
 
 search: true
