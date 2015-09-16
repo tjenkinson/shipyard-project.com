@@ -85,7 +85,7 @@ key | Webhook key
 
 ## Deploy using Webhook
 ```http
-POST /hub/webhook HTTP/1.1
+POST /hub/webhook/9953f2f31ad8bc05 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -126,7 +126,7 @@ HTTP/1.1 200 OK
 
 HTTP Request
 
-`POST /hub/webhook`
+`POST /hub/webhook/(key)`
 
 Data is expected to be in the format of the [Docker Hub](https://docs.docker.com/docker-hub/builds/) build payload.
 
