@@ -34,7 +34,8 @@ curl -sSL https://shipyard-project.com/deploy | bash -s -- -h
 
 ```bash
 Shipyard Deploy uses the following environment variables:
-  ACTION: this is the action to use (deploy, upgrade, remove)
+  ACTION: this is the action to use (deploy, upgrade, node, remove)
+  DISCOVERY: discovery system used in Swarm (only valid with the 'node' action)
   IMAGE: this overrides the default Shipyard image
   PREFIX: prefix for container names
   SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args
@@ -53,6 +54,7 @@ This controls the action for the deployment.  Available options are:
 - `deploy`: Deploy a new Shipyard instance
 - `upgrade`: Upgrade an existing instance (note: you will need to pass the
 same environment variables as when you deployed to keep the same configuration)
+- `node`: Add current Docker engine as a new Swarm node in the cluster 
 - `remove`: Completely removes Shipyard
 
 ### IMAGE
