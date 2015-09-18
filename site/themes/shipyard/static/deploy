@@ -161,6 +161,8 @@ remove_proxy() {
 }
 
 start_swarm_manager() {
+    get_ip
+
     TLS_OPTS=""
     if [ $ENABLE_TLS = 1 ]; then
         TLS_OPTS="--tlsverify --tlscacert=$SSL_CA_CERT --tlscert=$SSL_CERT --tlskey=$SSL_KEY"
@@ -179,7 +181,7 @@ start_swarm_manager() {
         --name $PREFIX-swarm-manager \
         --volumes-from=$PREFIX-certs $EXTRA_RUN_OPTS \
         swarm:latest \
-        m --host tcp://0.0.0.0:$SWARM_PORT $TLS_OPTS $DISCOVERY)
+        m --replication --addr $SHIPYARD_IP:$SWARM_PORT --host tcp://0.0.0.0:$SWARM_PORT $TLS_OPTS $DISCOVERY)
 }
 
 remove_swarm_manager() {
