@@ -115,3 +115,13 @@ You can then specify this path when deploying:
 ```bash
 curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash -s
 ```
+
+## Adding a Node
+The Shipyard deploy script will automatically setup a key/value store.
+To add additional nodes to the Swarm cluster, you can use this script again
+by specifying `node` for the `ACTION`.  For example, if the IP of your initial
+node is `10.0.0.10` you can add a node by running the following:
+
+```bash
+curl -sSL https://shipyard-project.com/deploy | ACTION=node DISCOVERY=etcd://10.0.1.10:4001 bash -s
+```

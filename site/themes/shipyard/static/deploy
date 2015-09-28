@@ -26,6 +26,9 @@ CERT_PATH="/etc/shipyard"
 PROXY_PORT=${PROXY_PORT:-2375}
 SWARM_PORT=3375
 SHIPYARD_PROTOCOL=http
+DISCOVERY_BACKEND=etcd
+DISCOVERY_PORT=4001
+DISCOVERY_PEER_PORT=7001
 ENABLE_TLS=0
 CERT_FINGERPRINT=""
 LOCAL_CA_CERT=""
@@ -105,15 +108,21 @@ remove_certs() {
     docker rm -fv $PREFIX-certs > /dev/null 2>&1
 }
 
+get_ip() {
+    SHIPYARD_IP=`docker run --rm --net=host alpine ip route get 8.8.8.8 | awk '{ print $7;  }'`
+}
+
 start_discovery() {
+    get_ip
+
     ID=$(docker run \
         -ti \
         -d \
-        -p 8400:8400 \
-        -p 8500:8500 \
+        -p 4001:4001 \
+        -p 7001:7001 \
         --restart=always \
         --name $PREFIX-discovery \
-        progrium/consul -bootstrap -server)
+        microbox/etcd:latest -addr $SHIPYARD_IP:$DISCOVERY_PORT -peer-addr $SHIPYARD_IP:$DISCOVERY_PEER_PORT)
 }
 
 remove_discovery() {
@@ -171,7 +180,7 @@ start_swarm_manager() {
     EXTRA_RUN_OPTS=""
 
     if [ -z "$DISCOVERY" ]; then
-        DISCOVERY="consul://discovery:8500"
+        DISCOVERY="$DISCOVERY_BACKEND://discovery:$DISCOVERY_PORT"
         EXTRA_RUN_OPTS="--link $PREFIX-discovery:discovery"
     fi
     ID=$(docker run \
@@ -192,7 +201,7 @@ start_swarm_agent() {
     get_ip
 
     if [ -z "$DISCOVERY" ]; then
-        DISCOVERY="consul://discovery:8500"
+        DISCOVERY="$DISCOVERY_BACKEND://discovery:$DISCOVERY_PORT"
         EXTRA_RUN_OPTS="--link $PREFIX-discovery:discovery"
     fi
     ID=$(docker run \
@@ -228,10 +237,6 @@ start_controller() {
         --debug \
         server \
         -d tcp://swarm:$SWARM_PORT $TLS_OPTS $SHIPYARD_ARGS)
-}
-
-get_ip() {
-    SHIPYARD_IP=`docker run --rm --net=host alpine ip route get 8.8.8.8 | awk '{ print $7;  }'`
 }
 
 wait_for_available() {
