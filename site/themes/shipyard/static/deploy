@@ -2,7 +2,8 @@
 
 if [ "$1" != "" ] && [ "$1" = "-h" ]; then
     echo "Shipyard Deploy uses the following environment variables:"
-    echo "  ACTION: this is the action to use (deploy, upgrade, remove)"
+    echo "  ACTION: this is the action to use (deploy, upgrade, node, remove)"
+    echo "  DISCOVERY: discovery system used by Swarm (only if using 'node' action)"
     echo "  IMAGE: this overrides the default Shipyard image"
     echo "  PREFIX: prefix for container names"
     echo "  SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args"
@@ -22,9 +23,12 @@ PREFIX=${PREFIX:-shipyard}
 SHIPYARD_ARGS=${SHIPYARD_ARGS:-""}
 TLS_CERT_PATH=${TLS_CERT_PATH:-}
 CERT_PATH="/etc/shipyard"
-PROXY_PORT=2375
+PROXY_PORT=${PROXY_PORT:-2375}
 SWARM_PORT=3375
 SHIPYARD_PROTOCOL=http
+DISCOVERY_BACKEND=etcd
+DISCOVERY_PORT=4001
+DISCOVERY_PEER_PORT=7001
 ENABLE_TLS=0
 CERT_FINGERPRINT=""
 LOCAL_CA_CERT=""
@@ -55,7 +59,9 @@ check_certs() {
         exit 1
     fi
 
-    PROXY_PORT=2376
+    if [ "$PROXY_PORT" = "2375" ]; then
+        PROXY_PORT=2376
+    fi
     SWARM_PORT=3376
     SHIPYARD_PROTOCOL=https
     LOCAL_SSL_CA_CERT="$TLS_CERT_PATH/ca.pem"
@@ -102,6 +108,27 @@ remove_certs() {
     docker rm -fv $PREFIX-certs > /dev/null 2>&1
 }
 
+get_ip() {
+    SHIPYARD_IP=`docker run --rm --net=host alpine ip route get 8.8.8.8 | awk '{ print $7;  }'`
+}
+
+start_discovery() {
+    get_ip
+
+    ID=$(docker run \
+        -ti \
+        -d \
+        -p 4001:4001 \
+        -p 7001:7001 \
+        --restart=always \
+        --name $PREFIX-discovery \
+        microbox/etcd:latest -addr $SHIPYARD_IP:$DISCOVERY_PORT -peer-addr $SHIPYARD_IP:$DISCOVERY_PEER_PORT)
+}
+
+remove_discovery() {
+    docker rm -fv $PREFIX-discovery > /dev/null 2>&1
+}
+
 start_rethinkdb() {
     ID=$(docker run \
         -ti \
@@ -128,6 +155,7 @@ start_proxy() {
     ID=$(docker run \
         -ti \
         -d \
+        -p $PROXY_PORT:$PROXY_PORT \
         --hostname=$HOSTNAME \
         --restart=always \
         --name $PREFIX-proxy \
@@ -141,24 +169,52 @@ remove_proxy() {
     docker rm -fv $PREFIX-proxy > /dev/null 2>&1
 }
 
-start_swarm() {
+start_swarm_manager() {
+    get_ip
+
     TLS_OPTS=""
     if [ $ENABLE_TLS = 1 ]; then
         TLS_OPTS="--tlsverify --tlscacert=$SSL_CA_CERT --tlscert=$SSL_CERT --tlskey=$SSL_KEY"
+    fi
+
+    EXTRA_RUN_OPTS=""
+
+    if [ -z "$DISCOVERY" ]; then
+        DISCOVERY="$DISCOVERY_BACKEND://discovery:$DISCOVERY_PORT"
+        EXTRA_RUN_OPTS="--link $PREFIX-discovery:discovery"
     fi
     ID=$(docker run \
         -ti \
         -d \
         --restart=always \
-        --name $PREFIX-swarm \
-        --link $PREFIX-proxy:proxy \
-        --volumes-from=$PREFIX-certs \
+        --name $PREFIX-swarm-manager \
+        --volumes-from=$PREFIX-certs $EXTRA_RUN_OPTS \
         swarm:latest \
-        m --host tcp://0.0.0.0:$SWARM_PORT $TLS_OPTS proxy:$PROXY_PORT)
+        m --replication --addr $SHIPYARD_IP:$SWARM_PORT --host tcp://0.0.0.0:$SWARM_PORT $TLS_OPTS $DISCOVERY)
 }
 
-remove_swarm() {
-    docker rm -fv $PREFIX-swarm > /dev/null 2>&1
+remove_swarm_manager() {
+    docker rm -fv $PREFIX-swarm-manager > /dev/null 2>&1
+}
+
+start_swarm_agent() {
+    get_ip
+
+    if [ -z "$DISCOVERY" ]; then
+        DISCOVERY="$DISCOVERY_BACKEND://discovery:$DISCOVERY_PORT"
+        EXTRA_RUN_OPTS="--link $PREFIX-discovery:discovery"
+    fi
+    ID=$(docker run \
+        -ti \
+        -d \
+        --restart=always \
+        --name $PREFIX-swarm-agent $EXTRA_RUN_OPTS \
+        swarm:latest \
+        j --addr $SHIPYARD_IP:$PROXY_PORT $DISCOVERY)
+}
+
+remove_swarm_agent() {
+    docker rm -fv $PREFIX-swarm-agent > /dev/null 2>&1
 }
 
 start_controller() {
@@ -174,16 +230,13 @@ start_controller() {
         --restart=always \
         --name $PREFIX-controller \
         --link $PREFIX-rethinkdb:rethinkdb \
-        --link $PREFIX-swarm:swarm \
+        --link $PREFIX-swarm-manager:swarm \
         -p 8080:8080 \
         --volumes-from=$PREFIX-certs \
         $IMAGE \
+        --debug \
         server \
         -d tcp://swarm:$SWARM_PORT $TLS_OPTS $SHIPYARD_ARGS)
-}
-
-get_shipyard_ip() {
-    SHIPYARD_IP=`docker run --rm --net=host alpine ip route get 8.8.8.8 | awk '{ print $7;  }'`
 }
 
 wait_for_available() {
@@ -199,7 +252,7 @@ wait_for_available() {
         TLS_OPTS="-k"
     fi
 
-    until $(docker run --rm ehazlett/curl --output /dev/null --connect-timeout 1 --silent --head --fail $TLS_OPTS $SHIPYARD_PROTOCOL://$IP:$PORT/); do
+    until $(docker run --rm ehazlett/curl --output /dev/null --connect-timeout 1 --silent --head --fail $TLS_OPTS $SHIPYARD_PROTOCOL://$IP:$PORT/ > /dev/null 2>&1); do
         printf '.'
         sleep 1 
     done
@@ -215,19 +268,23 @@ if [ "$ACTION" = "deploy" ]; then
 
     check_certs
 
+    get_ip 
+
     echo "Deploying Shipyard"
     echo " -> Starting Database"
     start_rethinkdb
+    echo " -> Starting Discovery"
+    start_discovery
     echo " -> Starting Cert Volume"
     start_certs
     echo " -> Starting Proxy"
     start_proxy
-    echo " -> Starting Swarm"
-    start_swarm
+    echo " -> Starting Swarm Manager"
+    start_swarm_manager
+    echo " -> Starting Swarm Agent"
+    start_swarm_agent
     echo " -> Starting Controller"
     start_controller
-
-    get_shipyard_ip 
 
     wait_for_available $SHIPYARD_IP 8080
 
@@ -236,11 +293,36 @@ if [ "$ACTION" = "deploy" ]; then
         echo "SSL SHA-256 Fingerprint: $CERT_FINGERPRINT"
     fi
     echo "Username: admin Password: shipyard"
+
+elif [ "$ACTION" = "node" ]; then
+    set -e
+
+    if [ -z "$DISCOVERY" ]; then
+        echo "You must set the DISCOVERY environment variable"
+        echo "with the discovery system used with Swarm"
+        exit 1
+    fi
+
+    check_certs
+
+    echo "Adding Node"
+    echo " -> Starting Cert Volume"
+    start_certs
+    echo " -> Starting Proxy"
+    start_proxy
+    echo " -> Starting Swarm Manager"
+    start_swarm_manager $DISCOVERY
+    echo " -> Starting Swarm Agent"
+    start_swarm_agent
+
+    echo "Node added to Swarm: $SHIPYARD_IP"
     
 elif [ "$ACTION" = "upgrade" ]; then
     set -e
 
     check_certs
+
+    get_ip
 
     echo "Upgrading Shipyard"
     echo " -> Pulling $IMAGE"
@@ -250,8 +332,6 @@ elif [ "$ACTION" = "upgrade" ]; then
     remove_controller
     start_controller
 
-    get_shipyard_ip
-    
     wait_for_available $SHIPYARD_IP 8080
 
     echo "Shipyard controller updated"
@@ -263,12 +343,16 @@ elif [ "$ACTION" = "remove" ]; then
     echo "Removing Shipyard"
     echo " -> Removing Database"
     remove_rethinkdb
+    echo " -> Removing Discovery"
+    remove_discovery
     echo " -> Removing Cert Volume"
     remove_certs
     echo " -> Removing Proxy"
     remove_proxy
-    echo " -> Removing Swarm"
-    remove_swarm
+    echo " -> Removing Swarm Agent"
+    remove_swarm_agent
+    echo " -> Removing Swarm Manager"
+    remove_swarm_manager
     echo " -> Removing Controller"
     remove_controller
 

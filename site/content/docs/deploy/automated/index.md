@@ -2,20 +2,9 @@
 Categories = []
 Description = ""
 Tags = []
-menu = "main"
-title = "Deploy"
-date = 2015-04-24T04:37:14Z
+title = "Automated Deployment"
+date = 2014-09-20T03:30:04Z
 +++
-
-Shipyard uses RethinkDB for its datastore.  User accounts, service keys, 
-webhook keys metadata are stored in RethinkDB.  No container information is 
-stored.
-
-> Note: you must have a Docker engine available.  If you do not have Docker
-see http://docs.docker.com/ to get started.
-
-Shipyard Deploy is a small script that will use the Docker CLI 
-to deploy Shipyard.  See the usage below to view the help for all options.  
 
 This will deploy Shipyard using the current Docker host.
 
@@ -34,28 +23,33 @@ curl -sSL https://shipyard-project.com/deploy | bash -s -- -h
 
 ```bash
 Shipyard Deploy uses the following environment variables:
-  ACTION: this is the action to use (deploy, upgrade, remove)
+  ACTION: this is the action to use (deploy, upgrade, node, remove)
+  DISCOVERY: discovery system used in Swarm (only valid with the 'node' action)
   IMAGE: this overrides the default Shipyard image
   PREFIX: prefix for container names
   SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args
   TLS_CERT_PATH: path to certs to enable TLS for Shipyard
 ```
 
-> Note: all variables are optional.
+Note: all variables are optional.
 
 ## Options
+
 To customize the deployment, you can specify the following environment
 variables.
 
 ### ACTION
+
 This controls the action for the deployment.  Available options are:
 
 - `deploy`: Deploy a new Shipyard instance
 - `upgrade`: Upgrade an existing instance (note: you will need to pass the
 same environment variables as when you deployed to keep the same configuration)
+- `node`: Add current Docker engine as a new Swarm node in the cluster
 - `remove`: Completely removes Shipyard
 
 ### IMAGE
+
 This allows you to specify the image for deployment.  For example, to use the
 test version of shipyard you could deploy like:
 
@@ -64,22 +58,26 @@ curl -sSL https://shipyard-project.com/deploy | IMAGE=shipyard/shipyard:test bas
 ```
 
 ### PREFIX
+
 This changes the prefix of the container names when deployed.  The default
 prefix is `shipyard`.
+
 
 ```bash
 curl -sSL https://shipyard-project.com/deploy | PREFIX=shipyard-test bash -s
 ```
 
 ### SHIPYARD_ARGS
+
 These are additional controller arguments for the Shipyard controller.  See
 the [Controller Usage](/docs/usage/controller/) for details.
 
 ```bash
-curl -sSL https://shipyard-project.com/deploy | SHIPYARD_ARGS="--ldap-server=ldap.example.com --ldap-autocreate-users" bash -s
+curl -sSL https://shipyard-project.com/deploy | SHIPYARD_ARGS=&quot;--ldap-server=ldap.example.com --ldap-autocreate-users&quot; bash -s
 ```
 
 ### TLS_CERT_PATH
+
 This causes the deployment to enable TLS for all components of the system.
 The proxy, swarm and controller will all be configured for TLS.  This is an
 opinionated configuration and the deployer expects the following.
@@ -97,7 +95,7 @@ These will be placed in a volume container and shared amongst the various
 components.  If you need to debug, you can link this container to your debug
 container.  The data container name is `$PREFIX-certs`.
 
-If you need to create certificates, [CertM](https://github.com/ehazlett/certm)
+If you need to create certificates, [CertM](https://github.com/ehazlett/certm/)
 will generate all of the needed certificates with a single command:
 
 ```bash
@@ -116,4 +114,15 @@ You can then specify this path when deploying:
 
 ```bash
 curl -sSL https://shipyard-project.com/deploy | TLS_CERT_PATH=$(pwd)/certs bash -s
+```
+
+## Adding a Node
+
+The Shipyard deploy script will automatically setup a key/value store.
+To add additional nodes to the Swarm cluster, you can use this script again
+by specifying `node` for the `ACTION`.  For example, if the IP of your initial
+node is `10.0.0.10` you can add a node by running the following:
+
+```bash
+curl -sSL https://shipyard-project.com/deploy | ACTION=node DISCOVERY=etcd://10.0.1.10:4001 bash -s
 ```
