@@ -73,7 +73,7 @@ These are additional controller arguments for the Shipyard controller.  See
 the [Controller Usage](/docs/usage/controller/) for details.
 
 ```bash
-curl -sSL https://shipyard-project.com/deploy | SHIPYARD_ARGS=&quot;--ldap-server=ldap.example.com --ldap-autocreate-users&quot; bash -s
+curl -sSL https://shipyard-project.com/deploy | SHIPYARD_ARGS="--ldap-server=ldap.example.com --ldap-autocreate-users" bash -s
 ```
 
 ### TLS_CERT_PATH
