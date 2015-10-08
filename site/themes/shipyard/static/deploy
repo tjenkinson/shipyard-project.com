@@ -8,6 +8,8 @@ if [ "$1" != "" ] && [ "$1" = "-h" ]; then
     echo "  PREFIX: prefix for container names"
     echo "  SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args"
     echo "  TLS_CERT_PATH: path to certs to enable TLS for Shipyard"
+    echo "  PORT: specify the listen port for the controller (default: 8080)"
+    echo "  PROXY_PORT: port to run docker proxy (default: 2375)"
     exit 1
 fi
 
@@ -26,6 +28,7 @@ CERT_PATH="/etc/shipyard"
 PROXY_PORT=${PROXY_PORT:-2375}
 SWARM_PORT=3375
 SHIPYARD_PROTOCOL=http
+SHIPYARD_PORT=${PORT:-8080}
 DISCOVERY_BACKEND=etcd
 DISCOVERY_PORT=4001
 DISCOVERY_PEER_PORT=7001
@@ -231,11 +234,12 @@ start_controller() {
         --name $PREFIX-controller \
         --link $PREFIX-rethinkdb:rethinkdb \
         --link $PREFIX-swarm-manager:swarm \
-        -p 8080:8080 \
+        -p $SHIPYARD_PORT:$SHIPYARD_PORT \
         --volumes-from=$PREFIX-certs \
         $IMAGE \
         --debug \
         server \
+        --listen :$SHIPYARD_PORT \
         -d tcp://swarm:$SWARM_PORT $TLS_OPTS $SHIPYARD_ARGS)
 }
 
@@ -286,9 +290,9 @@ if [ "$ACTION" = "deploy" ]; then
     echo " -> Starting Controller"
     start_controller
 
-    wait_for_available $SHIPYARD_IP 8080
+    wait_for_available $SHIPYARD_IP $SHIPYARD_PORT
 
-    echo "Shipyard available at $SHIPYARD_PROTOCOL://$SHIPYARD_IP:8080"
+    echo "Shipyard available at $SHIPYARD_PROTOCOL://$SHIPYARD_IP:$SHIPYARD_PORT"
     if [ $ENABLE_TLS = 1 ] && [ ! -z "$CERT_FINGERPRINT" ]; then
         echo "SSL SHA-256 Fingerprint: $CERT_FINGERPRINT"
     fi

@@ -29,6 +29,8 @@ Shipyard Deploy uses the following environment variables:
   PREFIX: prefix for container names
   SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args
   TLS_CERT_PATH: path to certs to enable TLS for Shipyard
+  PORT: listen port for the shipyard controller (default: 8080)
+  PROXY_PORT: port for the docker proxy (default: 2375)
 ```
 
 Note: all variables are optional.
