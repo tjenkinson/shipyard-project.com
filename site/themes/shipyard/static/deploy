@@ -29,6 +29,7 @@ PROXY_PORT=${PROXY_PORT:-2375}
 SWARM_PORT=3375
 SHIPYARD_PROTOCOL=http
 SHIPYARD_PORT=${PORT:-8080}
+SHIPYARD_IP=
 DISCOVERY_BACKEND=etcd
 DISCOVERY_PORT=4001
 DISCOVERY_PEER_PORT=7001
@@ -112,7 +113,9 @@ remove_certs() {
 }
 
 get_ip() {
-    SHIPYARD_IP=`docker run --rm --net=host alpine ip route get 8.8.8.8 | awk '{ print $7;  }'`
+    if [ -z "$SHIPYARD_IP" ]; then
+        SHIPYARD_IP=`docker run --rm --net=host alpine ip route get 8.8.8.8 | awk '{ print $7;  }'`
+    fi
 }
 
 start_discovery() {
