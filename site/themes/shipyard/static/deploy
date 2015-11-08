@@ -336,7 +336,7 @@ elif [ "$ACTION" = "upgrade" ]; then
     remove_controller
     start_controller
 
-    wait_for_available $SHIPYARD_IP 8080
+    wait_for_available $SHIPYARD_IP $SHIPYARD_PORT
 
     echo "Shipyard controller updated"
 
