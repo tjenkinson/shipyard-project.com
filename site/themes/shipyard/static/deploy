@@ -9,6 +9,7 @@ if [ "$1" != "" ] && [ "$1" = "-h" ]; then
     echo "  SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args"
     echo "  TLS_CERT_PATH: path to certs to enable TLS for Shipyard"
     echo "  PORT: specify the listen port for the controller (default: 8080)"
+    echo "  IP: specify the address at which the controller or node will be available (default: eth0 ip)"
     echo "  PROXY_PORT: port to run docker proxy (default: 2375)"
     exit 1
 fi
@@ -29,6 +30,7 @@ PROXY_PORT=${PROXY_PORT:-2375}
 SWARM_PORT=3375
 SHIPYARD_PROTOCOL=http
 SHIPYARD_PORT=${PORT:-8080}
+SHIPYARD_IP=${IP}
 DISCOVERY_BACKEND=etcd
 DISCOVERY_PORT=4001
 DISCOVERY_PEER_PORT=7001
@@ -112,7 +114,9 @@ remove_certs() {
 }
 
 get_ip() {
-    SHIPYARD_IP=`docker run --rm --net=host alpine ip route get 8.8.8.8 | awk '{ print $7;  }'`
+    if [ -z "$SHIPYARD_IP" ]; then
+        SHIPYARD_IP=`docker run --rm --net=host alpine ip route get 8.8.8.8 | awk '{ print $7;  }'`
+    fi
 }
 
 start_discovery() {
@@ -336,7 +340,7 @@ elif [ "$ACTION" = "upgrade" ]; then
     remove_controller
     start_controller
 
-    wait_for_available $SHIPYARD_IP 8080
+    wait_for_available $SHIPYARD_IP $SHIPYARD_PORT
 
     echo "Shipyard controller updated"
 
