@@ -9,7 +9,7 @@ if [ "$1" != "" ] && [ "$1" = "-h" ]; then
     echo "  SHIPYARD_ARGS: these are passed to the Shipyard controller container as controller args"
     echo "  TLS_CERT_PATH: path to certs to enable TLS for Shipyard"
     echo "  PORT: specify the listen port for the controller (default: 8080)"
-    echo "  SHIPYARD_IP: specify the address at which the controller will be available (default: eth0 ip)"
+    echo "  SHIPYARD_IP: specify the address at which the controller or node will be available (default: eth0 ip)"
     echo "  PROXY_PORT: port to run docker proxy (default: 2375)"
     exit 1
 fi
