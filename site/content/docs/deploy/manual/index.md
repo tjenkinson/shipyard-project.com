@@ -60,6 +60,7 @@ Note: You do not need this if you are using a manual TCP / TLS configuration.
 $> docker run \
     -ti \
     -d \
+    -p 2375:2375 \
     --hostname=$HOSTNAME \
     --restart=always \
     --name shipyard-proxy \
@@ -67,6 +68,8 @@ $> docker run \
     -e PORT=2375 \
     ehazlett/docker-proxy:latest
 ```
+
+No
 
 ## Swarm Manager
 

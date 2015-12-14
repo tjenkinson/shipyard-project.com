@@ -3,7 +3,7 @@
 TAG := latest
 REPO := shipyard/shipyard-project.com
 
-all: build docker-cleanup
+all: image
 
 build: build-app build-site build-api
 
