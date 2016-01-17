@@ -69,8 +69,6 @@ $> docker run \
     ehazlett/docker-proxy:latest
 ```
 
-No
-
 ## Swarm Manager
 
 This will run a Swarm container configured to manage.
